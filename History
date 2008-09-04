@@ -1,0 +1,60 @@
+-------------------------------------------------------------------
+
+     =========================================================
+     Geant4 - an Object-Oriented Toolkit for Simulation in HEP
+     =========================================================
+
+                    Test30 History file
+                    --------------------
+This file should be used by the test developer to briefly
+summarize all major modifications introduced in the code and keep
+track of all tags.
+
+     ----------------------------------------------------------
+     * Reverse chronological order (last date on top), please *
+     ----------------------------------------------------------
+
+test30-V09-01-02  25 August 2008 V.Ivanchenko
+- Test30Physics - added qmd ion model (F.Romano)
+
+test30-V09-01-01  11 June 2008 V.Ivanchenko
+- Do not multiply ion energy by ion mass
+- remove AIDA from GNUmakefile
+
+test30-V09-01-00  7 May 2008 V.Ivanchenko
+- Added an option to define target isotope explicitly
+
+test30-V09-00-06  16 November 2007 V.Ivanchenko
+- Reduced number of booked histograms (book only what is tested)
+
+test30-V09-00-05  13 November 2007 V.Ivanchenko
+- Added QGSB, FTFB, DElastic
+
+test30-V09-00-04  06 November 2007 V.Ivanchenko
+- Added ROOT analysis (G4ANALYSIS_USE_ROOT variable)
+
+test30-V09-00-03  11 October 2007 V.Ivanchenko
+- add INCL and RPG models
+
+test30-V09-00-02  14 August 2007 V.Ivanchenko
+- test30 - fix end of run
+- Histo - fix destructor
+
+test30-V09-00-01  11 August 2007 V.Ivanchenko
+- add QGSP and QGSC
+
+test30-V09-00-00  30 July 2007 V.Ivanchenko
+- add Histo class, gamma energy, proton double differential
+
+test30-V08-02-00  26 Jan 2007 V.Ivanchenko
+- move data and kumac files to verification module
+
+test30-V08-01-01  16 Nov 2006 V.Ivanchenko
+- LDFLAGS -> LOADLIBS
+
+test30-V08-01-00  09 May 2006 V.Ivanchenko
+- murging test30 and cascade_test
+
+test30-V04-01-00  07 Oct 2002 V.Ivanchenko
+- first tag to define test30 status 
+
