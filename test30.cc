@@ -114,7 +114,7 @@ int main(int argc, char** argv)
   G4cout << "========================================================" << G4endl;
 
   //-----------------------------------------------------------------------------
-  // ------- Initialisation 
+  // ------- Initialisation
 
   Histo     histo;
   G4NistManager::Instance()->SetVerbose(2);
@@ -134,14 +134,14 @@ int main(int argc, char** argv)
   G4double  elim     = 30.*MeV;
   G4double  energyg  = 40.*MeV;
   G4double  balance  = 5.0*MeV;
-  G4double  dangl    = 5.0;
+  G4double  deltaAngle    = 5.0;
   G4int     nevt     = 1000;
   G4int     nbins    = 100;
   G4int     nbinsa   = 40;
   G4int     nbinse   = 80;
   G4int     nbinsd   = 20;
   G4int     nbinspi  = 20;
-  G4int     nangl    = 0;
+  G4int     numberOfAngles    = 0;
   G4int     nanglpr  = 0;
   G4int     nanglpi  = 0;
   G4int     modu     = 10000;
@@ -164,9 +164,9 @@ int main(int argc, char** argv)
   G4bool xsbgg = true;
   G4bool elastic = false;
 
-  G4double ang[20] = {0.0};
-  G4double bng1[20] = {0.0};
-  G4double bng2[20] = {0.0};
+  G4double angle[20] = {0.0};
+  G4double angleMin[20] = {0.0};
+  G4double angleMax[20] = {0.0};
   G4double cng[20] = {0.0};
   G4double angpr[20] = {0.0};
   G4double bng1pr[20] = {0.0};
@@ -246,7 +246,7 @@ int main(int argc, char** argv)
   const G4ParticleDefinition* ion = G4GenericIon::GenericIon();
 
   G4DecayPhysics decays;
-  decays.ConstructParticle();  
+  decays.ConstructParticle();
 
   G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
   partTable->SetReadiness();
@@ -269,6 +269,8 @@ int main(int argc, char** argv)
 
   G4String line, line1;
   G4bool end = true;
+  std::ofstream outFile("data.out");
+
   for(G4int run=0; run<100; run++) {
 
     // ---- Read input file
@@ -324,7 +326,7 @@ int main(int argc, char** argv)
       } else if(line == "#nbinspi") {
         (*fin) >> nbinspi;
       } else if(line == "#nangle") {
-        (*fin) >> nangl;
+        (*fin) >> numberOfAngles;
       } else if(line == "#nanglepr") {
         (*fin) >> nanglpr;
       } else if(line == "#nanglepi") {
@@ -332,15 +334,15 @@ int main(int argc, char** argv)
       } else if(line == "#anglespi") {
         for(int k=0; k<nanglpi; k++) {(*fin) >> angpi[k];}
       } else if(line == "#dangle") {
-        (*fin) >> dangl;
+        (*fin) >> deltaAngle;
       } else if(line == "#angles") {
-        for(int k=0; k<nangl; k++) {(*fin) >> ang[k];}
+        for(int k=0; k<numberOfAngles; k++) {(*fin) >> angle[k];}
       } else if(line == "#anglespr") {
         for(int k=0; k<nanglpr; k++) {(*fin) >> angpr[k];}
       } else if(line == "#thetamax") {
         (*fin) >> tetmax;
         if(tetmax <= 0.0 || tetmax >= 180.) tetmax = 180.;
-        costmax = std::cos(tetmax*degree); 
+        costmax = std::cos(tetmax*degree);
       } else if(line == "#range(mm)") {
         (*fin) >> range;
         range *= mm;
@@ -403,13 +405,13 @@ int main(int argc, char** argv)
     // -------- Start run processing
 
     G4StateManager* g4State=G4StateManager::GetStateManager();
-    if (! g4State->SetNewState(G4State_Init)) 
-      G4cout << "error changing G4state"<< G4endl;;   
+    if (! g4State->SetNewState(G4State_Init))
+      G4cout << "error changing G4state"<< G4endl;;
 
     G4cout << "###### Start new run # " << run << "   for "
 	   << nevt << " events  #####" << G4endl;
-    
-    // -------- Target 
+
+    // -------- Target
 
     material = mate->GetMaterial(nameMat);
     if(!material) {
@@ -418,7 +420,7 @@ int main(int argc, char** argv)
 	     << G4endl;
 	     exit(1);
     }
-    const G4Element* elm = material->GetElement(0); 
+    const G4Element* elm = material->GetElement(0);
 
     G4int A = (G4int)(elm->GetN()+0.5);
     G4int Z = (G4int)(elm->GetZ()+0.5);
@@ -433,9 +435,9 @@ int main(int argc, char** argv)
       part = (G4ParticleTable::GetParticleTable())->GetIon(ionZ, ionA, 0.);
     }
     if (! part ) {
-      G4cout << " Sorry, No definition for particle" <<namePart 
+      G4cout << " Sorry, No definition for particle" <<namePart
 	     << " found" << G4endl;
-      G4Exception(" ");  
+      G4Exception(" ");
     }
     G4DynamicParticle dParticle(part,aDirection,energy);
 
@@ -461,12 +463,12 @@ int main(int argc, char** argv)
 	     exit(1);
     }
 
-    // ------- Binning 
+    // ------- Binning
 
     G4int maxn = A + 1;
 
     G4cout << "The particle:  " << part->GetParticleName() << G4endl;
-    G4cout << "The material:  " << material->GetName() 
+    G4cout << "The material:  " << material->GetName()
 	   << " Z= " << Z << " A= " << A
 	   << "  Amax= " << maxn << G4endl;
     G4cout << "The step:      " << theStep/mm << " mm" << G4endl;
@@ -499,10 +501,10 @@ int main(int argc, char** argv)
       nbinlog = 100;
     }
     G4double binlog = (logmax - logmin)/G4double(nbinlog);
-    G4cout << "### Log10 scale from " << logmin << " to " << logmax 
-	   << " in " << nbinlog << " bins" << G4endl; 
+    G4cout << "### Log10 scale from " << logmin << " to " << logmax
+	   << " in " << nbinlog << " bins" << G4endl;
 
-    if(nameGen == "LElastic" || 
+    if(nameGen == "LElastic" ||
        nameGen == "BertiniElastic" ||
        nameGen == "elastic" ||
        nameGen == "HElastic" ||
@@ -513,7 +515,7 @@ int main(int argc, char** argv)
     if(usepaw && !isInitH) {
 
       isInitH = true;
-    
+
       histo.add1D("1","Number of Secondaries",100,-0.5,99.5);
       histo.add1D("2","Type of secondary",10,-0.5,9.5);
       histo.add1D("3","Phi(degrees) of Secondaries",90,-180.0,180.0);
@@ -567,8 +569,8 @@ int main(int argc, char** argv)
       histo.add1D("40","ds/dE for neutrons at theta = 12",nbinsd,0.,emax);
 
       // neutron double differencial histograms are active by request
-      for(i=nangl; i<13; i++) {histo.activate(27+i, false);}
- 
+      for(i=numberOfAngles; i<13; i++) {histo.activate(27+i, false);}
+
       histo.add1D("41","ds/dE for pi- at theta = 0",nbinspi,0.,emaxpi);
       histo.add1D("42","ds/dE for pi- at theta = 1",nbinspi,0.,emaxpi);
       histo.add1D("43","ds/dE for pi- at theta = 2",nbinspi,0.,emaxpi);
@@ -582,8 +584,8 @@ int main(int argc, char** argv)
 
       // pion double differencial histograms are active by request
       for(i=nanglpi; i<5; i++) {
-	histo.activate(40+i, false);
-	histo.activate(45+i, false);
+	histo.activate(40+i, true);
+	histo.activate(45+i, true);
       }
       histo.add1D("51","E(MeV) neutrons",nbinlog,logmin,logmax);
       histo.add1D("52","ds/dE for neutrons at theta = 0",nbinlog,logmin,logmax);
@@ -594,7 +596,7 @@ int main(int argc, char** argv)
       histo.add1D("57","ds/dE for neutrons at theta = 5",nbinlog,logmin,logmax);
 
       // neutron double differencial histograms are active by request
-      for(i=nangl; i<6; i++) {histo.activate(51+i, false);}
+      for(i=numberOfAngles; i<6; i++) {histo.activate(51+i, false);}
 
       if(elastic) {
 	histo.add1D("58","Ekin (MeV) for primary particle",120,0.,energy*1.2/MeV);
@@ -628,8 +630,8 @@ int main(int argc, char** argv)
 
     if(nameGen == "LElastic" || nameGen == "BertiniElastic" ) {
       cs = new G4HadronElasticDataSet();
-    } else if (nameGen == "elastic" || 
-	       nameGen == "HElastic" || 
+    } else if (nameGen == "elastic" ||
+	       nameGen == "HElastic" ||
 	       nameGen == "DElastic") {
       if(Z == 1) cs = new G4HadronElasticDataSet();
       else if(part == proton || part == neutron) {
@@ -670,13 +672,13 @@ int main(int argc, char** argv)
         GetInelasticCrossSection(&dParticle, elm);
     }
 
-    G4double factor  = 
+    G4double factor  =
       cross_sec*MeV*1000.0*(G4double)nbinse/(energy*barn*(G4double)nevt);
-    G4double factora = 
+    G4double factora =
       cross_sec*1000.0*(G4double)nbinsa/(twopi*(1.0 - costmax)*barn*(G4double)nevt);
-    G4double factoraa = 
+    G4double factoraa =
       cross_sec*1000.0*(G4double)nbinsa/(twopi*tetmax*degree*barn*(G4double)nevt);
-    G4double factoral = 
+    G4double factoral =
       cross_sec*1000.0*(G4double)nbinsa/(twopi*xxl*std::log(10.)*barn*(G4double)nevt);
     G4double factorb= cross_sec*1000.0/(barn*(G4double)nevt);
     G4cout << "### factor  = " << factor
@@ -686,29 +688,29 @@ int main(int argc, char** argv)
 
     // -------- Limit number of angles
 
-    if(nangl   > 13) nangl   = 13;
+    if(numberOfAngles   > 13) numberOfAngles   = 13;
     if(nanglpr > 11) nanglpr = 11;
     if(nanglpi >  5) nanglpi = 5;
 
-    if(nangl > 0) {
-      for(G4int k=0; k<nangl; k++) {
+    if(numberOfAngles > 0) {
+      for(G4int k=0; k<numberOfAngles; k++) {
 
-        if(nangl == 1) {
-          bng1[0] = std::max(0.0,ang[0] - dangl);
-          bng2[0] = std::min(180., ang[0] + dangl);
+        if(numberOfAngles == 1) {
+          angleMin[0] = std::max(0.0,angle[0] - deltaAngle);
+          angleMax[0] = std::min(180., angle[0] + deltaAngle);
         } else if(k == 0) {
-          bng1[0] = std::max(0.0,ang[0] - dangl);
-          bng2[0] = std::min(0.5*(ang[0] + ang[1]), ang[0] + dangl);
-        } else if(k < nangl-1) {
-          bng1[k] = std::max(bng2[k-1], ang[k]-dangl);
-          bng2[k] = std::min(0.5*(ang[k] + ang[k+1]), ang[k] + dangl);
+          angleMin[0] = std::max(0.0,angle[0] - deltaAngle);
+          angleMax[0] = std::min(0.5*(angle[0] + angle[1]), angle[0] + deltaAngle);
+        } else if(k < numberOfAngles-1) {
+          angleMin[k] = std::max(angleMax[k-1], angle[k]-deltaAngle);
+          angleMax[k] = std::min(0.5*(angle[k] + angle[k+1]), angle[k] + deltaAngle);
         } else {
-          bng1[k] = std::max(bng2[k-1], ang[k]-dangl);
-          bng2[k] = std::min(180., ang[k] + dangl);
+          angleMin[k] = std::max(angleMax[k-1], angle[k]-deltaAngle);
+          angleMax[k] = std::min(180., angle[k] + deltaAngle);
         }
 
         cng[k] = cross_sec*MeV*1000.0*(G4double)nbinsd/
-         (twopi*(std::cos(degree*bng1[k]) - std::cos(degree*bng2[k]))*
+         (twopi*(std::cos(degree*angleMin[k]) - std::cos(degree*angleMax[k]))*
                 barn*emax*(G4double)nevt);
       }
     }
@@ -717,17 +719,17 @@ int main(int argc, char** argv)
       for(G4int k=0; k<nanglpr; k++) {
 
         if(nanglpr == 1) {
-          bng1pr[0] = std::max(0.0,angpr[0] - dangl);
-          bng2pr[0] = std::min(180., angpr[0] + dangl);
+          bng1pr[0] = std::max(0.0,angpr[0] - deltaAngle);
+          bng2pr[0] = std::min(180., angpr[0] + deltaAngle);
         } else if(k == 0) {
-          bng1pr[0] = std::max(0.0,angpr[0] - dangl);
-          bng2pr[0] = std::min(0.5*(angpr[0] + angpr[1]), angpr[0] + dangl);
+          bng1pr[0] = std::max(0.0,angpr[0] - deltaAngle);
+          bng2pr[0] = std::min(0.5*(angpr[0] + angpr[1]), angpr[0] + deltaAngle);
         } else if(k < nanglpr-1) {
-          bng1pr[k] = std::max(bng2pr[k-1], angpr[k]-dangl);
-          bng2pr[k] = std::min(0.5*(angpr[k] + angpr[k+1]), angpr[k] + dangl);
+          bng1pr[k] = std::max(bng2pr[k-1], angpr[k]-deltaAngle);
+          bng2pr[k] = std::min(0.5*(angpr[k] + angpr[k+1]), angpr[k] + deltaAngle);
         } else {
-          bng1pr[k] = std::max(bng2pr[k-1], angpr[k]-dangl);
-          bng2pr[k] = std::min(180., angpr[k] + dangl);
+          bng1pr[k] = std::max(bng2pr[k-1], angpr[k]-deltaAngle);
+          bng2pr[k] = std::min(180., angpr[k] + deltaAngle);
         }
 
         cngpr[k] = cross_sec*MeV*1000.0*(G4double)nbinsd/
@@ -739,18 +741,18 @@ int main(int argc, char** argv)
     if(nanglpi > 0) {
       for(G4int k=0; k<nanglpi; k++) {
 
-        if(nangl == 1) {
-          bngpi1[0] = std::max(0.0,angpi[0] - dangl);
-          bngpi2[0] = std::min(180., angpi[0] + dangl);
+        if(numberOfAngles == 1) {
+          bngpi1[0] = std::max(0.0,angpi[0] - deltaAngle);
+          bngpi2[0] = std::min(180., angpi[0] + deltaAngle);
         } else if(k == 0) {
-          bngpi1[0] = std::max(0.0,angpi[0] - dangl);
-          bngpi2[0] = std::min(0.5*(angpi[0] + angpi[1]), angpi[0] + dangl);
+          bngpi1[0] = std::max(0.0,angpi[0] - deltaAngle);
+          bngpi2[0] = std::min(0.5*(angpi[0] + angpi[1]), angpi[0] + deltaAngle);
         } else if(k < nanglpi-1) {
-          bngpi1[k] = std::max(bngpi2[k-1], angpi[k]-dangl);
-          bngpi2[k] = std::min(0.5*(angpi[k] + angpi[k+1]), angpi[k] + dangl);
+          bngpi1[k] = std::max(bngpi2[k-1], angpi[k]-deltaAngle);
+          bngpi2[k] = std::min(0.5*(angpi[k] + angpi[k+1]), angpi[k] + deltaAngle);
         } else {
-          bngpi1[k] = std::max(bngpi2[k-1], angpi[k]-dangl);
-          bngpi2[k] = std::min(180., angpi[k] + dangl);
+          bngpi1[k] = std::max(bngpi2[k-1], angpi[k]-deltaAngle);
+          bngpi2[k] = std::min(180., angpi[k] + deltaAngle);
         }
 
         cngpi[k] = cross_sec*MeV*1000.0*(G4double)nbinspi/
@@ -809,7 +811,7 @@ int main(int argc, char** argv)
 
     for (G4int iter=0; iter<nevt; iter++) {
 
-      if(verbose>1) 
+      if(verbose>1)
         G4cout << "### " << iter << "-th event start " << G4endl;
 
       G4double e0 = energy;
@@ -822,20 +824,20 @@ int main(int argc, char** argv)
       gTrack->SetStep(step);
       gTrack->SetKineticEnergy(e0);
 
-      labv = G4LorentzVector(0.0, 0.0, std::sqrt(e0*(e0 + 2.*mass)), 
+      labv = G4LorentzVector(0.0, 0.0, std::sqrt(e0*(e0 + 2.*mass)),
 			     e0 + mass + amass);
       G4ThreeVector bst = labv.boostVector();
-      
+
       aChange = proc->PostStepDoIt(*gTrack,*step);
 
       // take into account local energy deposit
       G4double de = aChange->GetLocalEnergyDeposit();
-      G4LorentzVector dee = G4LorentzVector(0.0, 0.0, 0.0, de); 
+      G4LorentzVector dee = G4LorentzVector(0.0, 0.0, 0.0, de);
       labv -= dee;
 
       G4int n = aChange->GetNumberOfSecondaries();
 
-      if(iter == modu*(iter/modu)) 
+      if(iter == modu*(iter/modu))
         G4cout << "##### " << iter << "-th event  #####" << G4endl;
 
       G4int nbar = 0;
@@ -867,21 +869,23 @@ int main(int argc, char** argv)
         e  = fm.e() - m;
 
         theta = mom.theta();
-        G4double cost  = std::cos(theta);
+        G4double cosTheta  = std::cos(theta);
         G4double thetad = theta/degree;
 
         fm.boost(-bst);
         G4double costcm = std::cos(fm.theta());
 
+        outFile << pd->GetAtomicMass() << " " << pd->GetAtomicNumber() << " " << fm.e() / MeV << " " << (fm.e() / MeV - pd->GetPDGMass() /MeV) << " " << mom.mag() / MeV << " " << mom.theta() / degree << " " << mom.phi() /degree << std::endl;
+
 	if(usepaw) {
           if(elastic) {
 	    if(i==0)  {
 	      histo.fill(57,e/MeV,1.0);
-	      histo.fill(59,cost,factora);
+	      histo.fill(59,cosTheta,factora);
 	      histo.fill(61,costcm,factora);
 	    } else if(i==1) {
 	      histo.fill(58,e/MeV,1.0);
-	      histo.fill(60,cost,factora);
+	      histo.fill(60,cosTheta,factora);
 	      histo.fill(62,costcm,factora);
 	      histo.fill(63,thetad,factoraa/std::sin(theta));
 	      histo.fill(64,std::log10(thetad),factoral*theta/std::sin(theta));
@@ -894,7 +898,7 @@ int main(int argc, char** argv)
 
 	if( (e == 0.0 || pt == 0.0) && warn < 50 ) {
           warn++;
-          G4cout << "Warning! evt# " << iter 
+          G4cout << "Warning! evt# " << iter
 	         << "  " << i << "-th sec  "
 		 << pd->GetParticleName() << "   Ekin(MeV)= "
                  << e/MeV
@@ -902,10 +906,10 @@ int main(int argc, char** argv)
 		 << G4endl;
 	}
 	de += e;
-        if((verbose>0 || std::fabs(mom.phi()/degree - 90.) < 0.001 ) && 
+        if((verbose>0 || std::fabs(mom.phi()/degree - 90.) < 0.001 ) &&
 	   warn < 50 && verbose>1) {
           warn++;
-          G4cout << "Warning! evt# " << iter 
+          G4cout << "Warning! evt# " << iter
                  << "  " << i << "-th sec  "
 		 << pd->GetParticleName() << "  Ekin(MeV)= "
                  << e/MeV
@@ -924,7 +928,7 @@ int main(int argc, char** argv)
             G4double N = pd->GetBaryonNumber();
             G4double Z1= pd->GetPDGCharge()/eplus;
             G4double Z0= bestZ[(G4int)N];
-            if(std::fabs(Z0 - Z1) < 0.1 || Z0 == 0.0) 
+            if(std::fabs(Z0 - Z1) < 0.1 || Z0 == 0.0)
 	      histo.fill(26, N, factorb);
 	  }
 
@@ -932,7 +936,7 @@ int main(int argc, char** argv)
 
             histo.fill(1,1.0, 1.0);
 	    histo.fill(21,e/MeV, factor);
-	    histo.fill(24,cost, factora);
+	    histo.fill(24,cosTheta, factora);
             for(G4int kk=0; kk<nanglpr; kk++) {
               if(bng1pr[kk] <= thetad && thetad <= bng2pr[kk]) {
                 histo.fill(3+kk,e/MeV, cngpr[kk]);
@@ -971,24 +975,24 @@ int main(int argc, char** argv)
 
 	    histo.fill(1,2.0, 1.0);
 	    histo.fill(22,e/MeV, factor);
-            G4double ee = std::log10(e/MeV);
+		G4double ee = std::log10(e/MeV);
 	    G4double e2 = ee;
-            G4bool islog= false;
-            if(ee >= logmin && ee <= logmax) { 
-	      islog = true;
-	      G4int nbb = G4int(((ee - logmin)/binlog));
-              G4double e1 = logmin + binlog*nbb;
-	      e2 = std::pow(10.,e1 + binlog) - std::pow(10.,e1);
-	      histo.fill(50, ee, factor*bine/e2);
-	    } 
-	    if(e >= elim) histo.fill(25, cost, factora);
-            for(G4int kk=0; kk<nangl; kk++) {
-              if(bng1[kk] <= thetad && thetad <= bng2[kk]) {
-                histo.fill(27+kk,e/MeV, cng[kk]);
-                if(islog && kk < 6) histo.fill(51+kk,ee,cng[kk]*bind/e2);
-                break;
-	      }
+	    G4bool islog= false;
+	    if(ee >= logmin && ee <= logmax) {
+	    	islog = true;
+	    	G4int nbb = G4int(((ee - logmin)/binlog));
+	    	G4double e1 = logmin + binlog*nbb;
+	    	e2 = std::pow(10.,e1 + binlog) - std::pow(10.,e1);
+	    	histo.fill(50, ee, factor*bine/e2);
 	    }
+		if(e >= elim) histo.fill(25, cosTheta, factora);
+		for(G4int kk=0; kk<numberOfAngles; kk++) {
+			if(angleMin[kk] <= thetad && thetad <= angleMax[kk]) {
+				histo.fill(27+kk,e/MeV, cng[kk]);
+				if(islog && kk < 6) histo.fill(51+kk,ee,cng[kk]*bind/e2);
+				break;
+			}
+		}
 
 	  } else if(pd == gamma) {
 	    histo.fill(14,e/MeV, 1.0);
@@ -1003,11 +1007,11 @@ int main(int argc, char** argv)
 	    histo.fill(1,9.0, 1.0);
 	  }
 	}
-	//	delete sec;       	 
+	//	delete sec;
         delete aChange->GetSecondary(i);
       }
 
-      if(verbose > 0) 
+      if(verbose > 0)
         G4cout << "Energy/Momentum balance= " << labv << G4endl;
 
       px = labv.px();
@@ -1041,6 +1045,7 @@ int main(int argc, char** argv)
   delete mate;
   delete fin;
   delete phys;
+  outFile.close();
 
   G4cout << "###### End of test #####" << G4endl;
 }
