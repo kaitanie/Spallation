@@ -107,6 +107,10 @@
 #include "Histo.hh"
 #include "G4Timer.hh"
 
+#include "Riostream.h"
+#include "TFile.h"
+#include "TTree.h"
+
 int main(int argc, char** argv)
 {
   G4cout << "========================================================" << G4endl;
@@ -146,7 +150,7 @@ int main(int argc, char** argv)
   G4int     nanglpi  = 0;
   G4int     modu     = 10000;
   G4int     targetA  = 0;
-  G4String hFile     = "hbook.paw";
+  G4String hFile     = "data.root";
   G4double theStep   = 0.01*micrometer;
   G4double range     = 1.0*micrometer;
   G4double  emax     = 160.*MeV;
@@ -269,7 +273,7 @@ int main(int argc, char** argv)
 
   G4String line, line1;
   G4bool end = true;
-  std::ofstream outFile("data.out");
+  //  std::ofstream outFile("data.out");
 
   for(G4int run=0; run<100; run++) {
 
@@ -400,6 +404,18 @@ int main(int argc, char** argv)
     } while(end);
 
     if(!end) break;
+
+    TFile *outputFile = new TFile(hFile, "RECREATE");
+    TTree *data = new TTree("data", "Data from test30");
+    Float_t kinE, totE, rmom, rtheta, rphi;
+    Int_t rA, rZ;
+    data->Branch("A", &rA, "A/I");
+    data->Branch("Z", &rZ, "Z/I");
+    data->Branch("totE", &totE, "totE/F");
+    data->Branch("kinE", &kinE, "kinE/F");
+    data->Branch("mom", &rmom, "mom/F");
+    data->Branch("theta", &rtheta, "theta/F");
+    data->Branch("phi", &rphi, "phi/F");
 
     // -------------------------------------------------------------------
     // -------- Start run processing
@@ -875,7 +891,32 @@ int main(int argc, char** argv)
         fm.boost(-bst);
         G4double costcm = std::cos(fm.theta());
 
-        outFile << pd->GetAtomicMass() << " " << pd->GetAtomicNumber() << " " << fm.e() / MeV << " " << (fm.e() / MeV - pd->GetPDGMass() /MeV) << " " << mom.mag() / MeV << " " << mom.theta() / degree << " " << mom.phi() /degree << std::endl;
+	//        outFile << pd->GetAtomicMass() << " " << pd->GetAtomicNumber() << " " << fm.e() / MeV << " " << (fm.e() / MeV - pd->GetPDGMass() /MeV) << " " << mom.mag() / MeV << " " << mom.theta() / degree << " " << mom.phi() /degree << std::endl;
+	if(pd == proton) {
+	  rA = 1;
+	  rZ = 1;
+	} else if (pd == neutron) {
+	  rA = 1;
+	  rZ = 0;
+	} else if (pd == pi0) {
+	  rA = -1;
+	  rZ = 0;
+	} else if (pd == pip) {
+	  rA = -1;
+	  rZ = 1;
+	} else if (pd == pin) {
+	  rA = -1;
+	  rZ = -1;
+	} else {
+	  rA = pd->GetAtomicMass();
+	  rZ = pd->GetAtomicNumber();
+	}
+	totE = fm.e() / MeV;
+	kinE = (fm.e() / MeV - pd->GetPDGMass() / MeV);
+	rmom = mom.mag() / MeV;
+       	rtheta = mom.theta() / degree;
+	rphi = mom.phi() / degree;
+	data->Fill();
 
 	if(usepaw) {
           if(elastic) {
@@ -1039,13 +1080,17 @@ int main(int argc, char** argv)
       G4cout << "###### Save histograms" << G4endl;
       histo.save();
     }
+
+    outputFile->Write();
+    outputFile->Close();
+
     G4cout << "###### End of run # " << run << "     ######" << G4endl;
   }
 
   delete mate;
   delete fin;
   delete phys;
-  outFile.close();
+  //  outFile.close();
 
   G4cout << "###### End of test #####" << G4endl;
 }
