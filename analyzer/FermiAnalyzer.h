@@ -32,8 +32,18 @@ public :
  TH1F *carbonIsotopes;
  TH1F *heliumIsotopes;
  TH1F *hydrogenIsotopes;
+ TH1F *neutronDD0;
+ TH1F *neutronDD0Lin;
+ TH1F *neutronDD7_5;
+ TH1F *neutronDD7_5Lin;
+ TH1F *neutronDD10;
+ TH1F *neutronDD10Lin;
  TH1F *neutronDD11;
  TH1F *neutronDD11Lin;
+ TH1F *neutronDD25;
+ TH1F *neutronDD25Lin;
+ TH1F *neutronDD30;
+ TH1F *neutronDD30Lin;
  TH1F *neutronDD50;
  TH1F *neutronDD50Lin;
 
