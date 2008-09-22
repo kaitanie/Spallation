@@ -29,9 +29,13 @@ public :
  TH1F *protonEnergyIntegrated;
  TH1F *ddHistBinWidths;
  TH1F *massnumbers;
- TH1F *carbonIsotopes;
- TH1F *heliumIsotopes;
  TH1F *hydrogenIsotopes;
+ TH1F *heliumIsotopes;
+ TH1F *lithiumIsotopes;
+ TH1F *berylliumIsotopes;
+ TH1F *boronIsotopes;
+ TH1F *carbonIsotopes;
+ TH1F *nitrogenIsotopes;
  TH1F *neutronDD0;
  TH1F *neutronDD0Lin;
  TH1F *neutronDD7_5;

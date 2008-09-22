@@ -67,10 +67,39 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    }
    //   de=1.0;
 
-   massnumbers = new TH1F("massnumbers", "Massnumber distribution", 14, 1.0, 14.0);
-   carbonIsotopes = new TH1F("carbonIsotopes", "Carbon isotopes", 14, 1.0, 14.0);
-   hydrogenIsotopes = new TH1F("hydrogenIsotopes", "Hydrogen isotopes", 14, 1.0, 14.0);
-   heliumIsotopes = new TH1F("heliumIsotopes", "Helium isotopes", 14, 1.0, 14.0);
+   massnumbers = new TH1F("massnumbers", "Massnumber distribution", 14, 0.5, 14.5);
+   massnumbers->GetXaxis()->SetTitle("Mass number");
+   massnumbers->GetYaxis()->SetTitle("#sigma (mb)");
+   massnumbers->SetLineWidth(2);
+   hydrogenIsotopes = new TH1F("hydrogenIsotopes", "Hydrogen isotopes", 14, 0.5, 14.5);
+   hydrogenIsotopes->GetXaxis()->SetTitle("Mass number");
+   hydrogenIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   hydrogenIsotopes->SetLineWidth(2);
+   heliumIsotopes = new TH1F("heliumIsotopes", "Helium isotopes", 14, 0.5, 14.5
+);
+   heliumIsotopes->GetXaxis()->SetTitle("Mass number");
+   heliumIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   heliumIsotopes->SetLineWidth(2);
+   lithiumIsotopes = new TH1F("lithiumIsotopes", "Lithium isotopes", 14, 0.5, 14.5);
+   lithiumIsotopes->GetXaxis()->SetTitle("Mass number");
+   lithiumIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   lithiumIsotopes->SetLineWidth(2);
+   berylliumIsotopes = new TH1F("berylliumIsotopes", "Beryllium isotopes", 14, 0.5, 14.5);
+   berylliumIsotopes->GetXaxis()->SetTitle("Mass number");
+   berylliumIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   berylliumIsotopes->SetLineWidth(2);
+   boronIsotopes = new TH1F("boronIsotopes", "Boron isotopes", 14, 0.5, 14.5);
+   boronIsotopes->GetXaxis()->SetTitle("Mass number");
+   boronIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   boronIsotopes->SetLineWidth(2);
+   carbonIsotopes = new TH1F("carbonIsotopes", "Carbon isotopes", 14, 0.5, 14.5);
+   carbonIsotopes->GetXaxis()->SetTitle("Mass number");
+   carbonIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   carbonIsotopes->SetLineWidth(2);
+   nitrogenIsotopes = new TH1F("nitrogenIsotopes", "Nitrogen isotopes", 14, 0.5, 14.5);
+   nitrogenIsotopes->GetXaxis()->SetTitle("Mass number");
+   nitrogenIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
+   nitrogenIsotopes->SetLineWidth(2);
 
    neutronDD0 = new TH1F("neutronDD0", "Angle 0 deg", 99, xbins);
    neutronDD0Lin = new TH1F("neutronDD0Lin", "Angle 0 deg", 99, 0.0, emax);
@@ -193,8 +222,20 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
   }
   //massnumbers->Fill(A);
   massnumbers->Fill(A, GetWeight(crossSection, numberOfEvents));
+  if(Z == 7) {
+    nitrogenIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+  }
   if(Z == 6) {
     carbonIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+  }
+  if(Z == 5) {
+    boronIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+  }
+  if(Z == 4) {
+    berylliumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+  }
+  if(Z == 3) {
+    lithiumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 2) {
     heliumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
@@ -207,7 +248,18 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
 
 Float_t FermiAnalyzer::GetDoubleDifferentialWeight(Float_t crossSection, Int_t numberOfEvents, Float_t theta, Float_t dTheta)
 {
-  Float_t weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(theta - dTheta)) - TMath::Cos(TMath::DegToRad()*(theta + dTheta))));
+  Float_t weight = 0.0;
+  if((theta - dTheta) > 0.0) {
+    weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(0.0)) - TMath::Cos(TMath::DegToRad()*(theta + dTheta))));
+  } else if ((theta + dTheta) > 180.0) {
+    weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(theta - dTheta)) - TMath::Cos(TMath::DegToRad()*(180.0))));
+  } else {
+    weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(theta - dTheta)) - TMath::Cos(TMath::DegToRad()*(theta + dTheta))));
+  }
+
+  if(weight <= 0.0) { // Weight of 0 or less is probably not a good sign!
+    cout <<"Analyzer: (File " << __FILE__ << " line " << __LINE__ << ") WARNING! weight = " << weight << endl;
+  }
   return weight;
 }
 

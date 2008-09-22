@@ -38,10 +38,5 @@ incl
 #paw
 inclCarbonProton1GeV.root
 #run
-#generator
-bertini
-#paw
-bertiniCarbonProton1GeV.root
-#run
 //--------Exit
 #exit
