@@ -58,7 +58,6 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    for(Int_t i=0;i<99+1;++i) {
      index--;
      xbins[i]=exp(log(emin)+fact*i);
-     cout << xbins[i] << endl;
    }
 
    ddHistBinWidths = new TH1F("ddHistBinWidths","",99,xbins);
@@ -67,6 +66,12 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    }
    //   de=1.0;
 
+   // histo = HistoFactory::create1D("name", "title", "xlabel", "ylabel", bins, minx, maxx);
+   // histologlog = HistoFactory::create1DLogx("name", "title", "xlabel", "ylabel", bins, minx, maxx);
+   chargenumbers = new TH1F("chargenumbers", "Massnumber distribution", 14, 0.5, 14.5);
+   chargenumbers->GetXaxis()->SetTitle("Charge number");
+   chargenumbers->GetYaxis()->SetTitle("#sigma (mb)");
+   chargenumbers->SetLineWidth(2);
    massnumbers = new TH1F("massnumbers", "Massnumber distribution", 14, 0.5, 14.5);
    massnumbers->GetXaxis()->SetTitle("Mass number");
    massnumbers->GetYaxis()->SetTitle("#sigma (mb)");
@@ -222,6 +227,7 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
   }
   //massnumbers->Fill(A);
   massnumbers->Fill(A, GetWeight(crossSection, numberOfEvents));
+  chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   if(Z == 7) {
     nitrogenIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
   }

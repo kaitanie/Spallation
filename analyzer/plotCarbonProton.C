@@ -1,8 +1,13 @@
 void plotCarbon() {
+Bool_t plotPrecoFermi = false;
 TFile *f0 = new TFile("resultsInclAblaWithFermi.root");
 TFile *f1 = new TFile("resultsInclAbla.root");
 TFile *f2 = new TFile("resultsBertini.root");
+if(plotPrecoFermi) {
+  TFile *f4 = new TFile("resultsPrecoFermi.root");
+}
 
+TH1F *chargenumbersInclAblaFermi = (TH1F *) f0->Get("chargenumbers");
 TH1F *massnumbersInclAblaFermi = (TH1F *) f0->Get("massnumbers");
 TH1F *hydrogenIsotopesInclAblaFermi = (TH1F *) f0->Get("hydrogenIsotopes");
 TH1F *heliumIsotopesInclAblaFermi = (TH1F *) f0->Get("heliumIsotopes");
@@ -12,6 +17,8 @@ TH1F *boronIsotopesInclAblaFermi = (TH1F *) f0->Get("boronIsotopes");
 TH1F *carbonIsotopesInclAblaFermi = (TH1F *) f0->Get("carbonIsotopes");
 TH1F *nitrogenIsotopesInclAblaFermi = (TH1F *) f0->Get("nitrogenIsotopes");
 
+TH1F *chargenumbersInclAbla = (TH1F *) f1->Get("chargenumbers");
+chargenumbersInclAbla->SetLineColor(kRed);
 TH1F *massnumbersInclAbla = (TH1F *) f1->Get("massnumbers");
 massnumbersInclAbla->SetLineColor(kRed);
 TH1F *hydrogenIsotopesInclAbla = (TH1F *) f1->Get("hydrogenIsotopes");
@@ -29,6 +36,8 @@ carbonIsotopesInclAbla->SetLineColor(kRed);
 TH1F *nitrogenIsotopesInclAbla = (TH1F *) f1->Get("nitrogenIsotopes");
 nitrogenIsotopesInclAbla->SetLineColor(kRed);
 
+TH1F *chargenumbersBert = (TH1F *) f2->Get("chargenumbers");
+chargenumbersBert->SetLineColor(kGreen);
 TH1F *massnumbersBert = (TH1F *) f2->Get("massnumbers");
 massnumbersBert->SetLineColor(kGreen);
 TH1F *hydrogenIsotopesBert = (TH1F *) f2->Get("hydrogenIsotopes");
@@ -46,6 +55,27 @@ carbonIsotopesBert->SetLineColor(kGreen);
 TH1F *nitrogenIsotopesBert = (TH1F *) f2->Get("nitrogenIsotopes");
 nitrogenIsotopesBert->SetLineColor(kGreen);
 
+ if(plotPrecoFermi) {
+TH1F *chargenumbersPrecoFermi = (TH1F *) f2->Get("chargenumbers");
+chargenumbersPrecoFermi->SetLineColor(kBlue);
+TH1F *massnumbersPrecoFermi = (TH1F *) f2->Get("massnumbers");
+massnumbersPrecoFermi->SetLineColor(kBlue);
+TH1F *hydrogenIsotopesPrecoFermi = (TH1F *) f2->Get("hydrogenIsotopes");
+hydrogenIsotopesPrecoFermi->SetLineColor(kBlue);
+TH1F *heliumIsotopesPrecoFermi = (TH1F *) f2->Get("heliumIsotopes");
+heliumIsotopesPrecoFermi->SetLineColor(kBlue);
+TH1F *lithiumIsotopesPrecoFermi = (TH1F *) f2->Get("lithiumIsotopes");
+lithiumIsotopesPrecoFermi->SetLineColor(kBlue);
+TH1F *berylliumIsotopesPrecoFermi = (TH1F *) f2->Get("berylliumIsotopes");
+berylliumIsotopesPrecoFermi->SetLineColor(kBlue);
+TH1F *boronIsotopesPrecoFermi = (TH1F *) f2->Get("boronIsotopes");
+boronIsotopesPrecoFermi->SetLineColor(kBlue);
+TH1F *carbonIsotopesPrecoFermi = (TH1F *) f2->Get("carbonIsotopes");
+carbonIsotopesPrecoFermi->SetLineColor(kBlue);
+TH1F *nitrogenIsotopesPrecoFermi = (TH1F *) f2->Get("nitrogenIsotopes");
+nitrogenIsotopesPrecoFermi->SetLineColor(kBlue);
+ }
+
 // Mass number distributions:
  TCanvas *c1 = new TCanvas();
  c1->SetLogy();
@@ -53,13 +83,24 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  massnumbersInclAblaFermi->Draw();
  massnumbersInclAbla->Draw("same");
  massnumbersBert->Draw("same");
+ if(plotPrecoFermi) massnumbersPrecoFermi->Draw("same");
 
  TLegend *legend = new TLegend(0.7, 0.9, 0.9, 0.7);
  legend->AddEntry(massnumbersInclAbla, "INCL/ABLA", "l");
  legend->AddEntry(massnumbersInclAblaFermi, "INCL/ABLA with Fermi", "l");
  legend->AddEntry(massnumbersBert, "Geant4 Bertini", "l");
+ if(plotPrecoFermi)  legend->AddEntry(massnumbersPrecoFermi, "G4 Preco + Fermi", "l");
  legend->Draw();
  c1->SaveAs("Proton1GeVCarbon.ps(");
+
+ TCanvas *c12 = new TCanvas();
+ c12->SetLogy();
+ chargenumbersBert->Draw();
+ chargenumbersInclAblaFermi->Draw();
+ chargenumbersInclAbla->Draw("same");
+ chargenumbersBert->Draw("same");
+ if(plotPrecoFermi) chargenumbersPrecoFermi->Draw("same");
+ c1->SaveAs("Proton1GeVCarbon.ps");
 
  TCanvas *c2 = new TCanvas("c2");
  c2->Divide(3, 3);
@@ -68,6 +109,7 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  hydrogenIsotopesInclAblaFermi->Draw();
  hydrogenIsotopesInclAbla->Draw("same");
  hydrogenIsotopesBert->Draw("same");
+ if(plotPrecoFermi) hydrogenIsotopesPrecoFermi->Draw("same");
  plotExpPoint(1);
 
  c2->cd(2);
@@ -75,13 +117,15 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  heliumIsotopesBert->Draw();
  heliumIsotopesInclAblaFermi->Draw("same");
  heliumIsotopesInclAbla->Draw("same");
+ if(plotPrecoFermi) heliumIsotopesPrecoFermi->Draw("same");
  plotExpPoint(2);
 
  c2->cd(3);
  c2_3->SetLogy();
- lithiumIsotopesInclAblaFermi->Draw();
+ lithiumIsotopesInclAbla->Draw();
+ lithiumIsotopesInclAblaFermi->Draw("same");
  lithiumIsotopesBert->Draw("same");
- lithiumIsotopesInclAbla->Draw("same");
+ if(plotPrecoFermi) lithiumIsotopesPrecoFermi->Draw("same");
  plotExpPoint(3);
 
  c2->cd(4);
@@ -89,6 +133,7 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  berylliumIsotopesBert->Draw();
  berylliumIsotopesInclAblaFermi->Draw("same");
  berylliumIsotopesInclAbla->Draw("same");
+ if(plotPrecoFermi) berylliumIsotopesPrecoFermi->Draw("same");
  plotExpPoint(4);
 
  c2->cd(5);
@@ -96,6 +141,7 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  boronIsotopesBert->Draw();
  boronIsotopesInclAblaFermi->Draw("same");
  boronIsotopesInclAbla->Draw("same");
+ if(plotPrecoFermi) boronIsotopesPrecoFermi->Draw("same");
  plotExpPoint(5);
 
  c2->cd(6);
@@ -103,6 +149,7 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  carbonIsotopesBert->Draw();
  carbonIsotopesInclAblaFermi->Draw("same");
  carbonIsotopesInclAbla->Draw("same");
+ if(plotPrecoFermi) carbonIsotopesPrecoFermi->Draw("same");
  plotExpPoint(6);
 
  c2->cd(7);
@@ -110,6 +157,7 @@ nitrogenIsotopesBert->SetLineColor(kGreen);
  nitrogenIsotopesInclAblaFermi->Draw();
  nitrogenIsotopesBert->Draw("same");
  nitrogenIsotopesInclAbla->Draw("same");
+ if(plotPrecoFermi) nitrogenIsotopesPrecoFermi->Draw("same");
  plotExpPoint(7);
  c2->SaveAs("Proton1GeVCarbon.ps)");
 }

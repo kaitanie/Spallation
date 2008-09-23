@@ -14,7 +14,7 @@ TFile *f0 = new TFile("../runs/inclCarbonProton1GeV.root");
 TFile *f1 = new TFile("../runs/inclNoFermiCarbonProton1GeV.root");
 TFile *f2 = new TFile("../runs/bertiniCarbonProton1GeV.root");
 //TFile *f3 = new TFile("binaryCarbonProton1GeV.root");
-//TFile *f4 = new TFile("precoCarbonProton1GeV.root");
+TFile *f4 = new TFile("../runs/precoFermiCarbonProton1GeV.root");
 
 data = (TTree *) f0->Get("data");
 data->Process(carbonAnalyzer, "resultsInclAblaWithFermi.root");
@@ -24,6 +24,9 @@ data->Process(carbonAnalyzer, "resultsInclAbla.root");
 
 data = (TTree *) f2->Get("data");
 data->Process(carbonAnalyzer, "resultsBertini.root");
+
+data = (TTree *) f4->Get("data");
+data->Process(carbonAnalyzer, "resultsPrecoFermi.root");
 
 //data = (TTree *) f3->Get("data");
 //data->Process(carbonAnalyzer, "resultsBinary.root");

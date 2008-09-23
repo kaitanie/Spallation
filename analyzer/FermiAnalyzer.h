@@ -28,6 +28,7 @@ public :
  TH1F *protonEnergyIntegratedLogx;
  TH1F *protonEnergyIntegrated;
  TH1F *ddHistBinWidths;
+ TH1F *chargenumbers;
  TH1F *massnumbers;
  TH1F *hydrogenIsotopes;
  TH1F *heliumIsotopes;
