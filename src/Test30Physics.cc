@@ -190,13 +190,21 @@ G4VProcess* Test30Physics::GetProcess(const G4String& gen_name,
     sg = new Test30VSecondaryGenerator(pcm,mat);
     theProcess->SetSecondaryGenerator(sg);
     man->AddDiscreteProcess(theProcess);
-
   } else if(gen_name == "binary") {
     G4BinaryCascade* hkm = new G4BinaryCascade();
     sg = new Test30VSecondaryGenerator(hkm, mat);
     theProcess->SetSecondaryGenerator(sg);
     man->AddDiscreteProcess(theProcess);
-
+  } else if(gen_name == "precoFermi") {
+    theDeExcitation = new G4ExcitationHandler();
+    theDeExcitation->SetEvaporation(new G4Evaporation);
+    theDeExcitation->SetFermiModel(new G4FermiBreakUp);
+    theDeExcitation->SetMaxAandZForFermiBreakUp(12, 6);
+    G4PreCompoundModel* pcm = new G4PreCompoundModel(theDeExcitation);
+    thePreCompound = pcm;
+    sg = new Test30VSecondaryGenerator(pcm,mat);
+    theProcess->SetSecondaryGenerator(sg);
+    man->AddDiscreteProcess(theProcess);
   } else if(gen_name == "ftfp") {
 
     G4TheoFSGenerator* theModel = new G4TheoFSGenerator;
