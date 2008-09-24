@@ -84,6 +84,7 @@ nitrogenIsotopesPrecoFermi->SetLineColor(kBlue);
  massnumbersInclAbla->Draw("same");
  massnumbersBert->Draw("same");
  if(plotPrecoFermi) massnumbersPrecoFermi->Draw("same");
+ plotExpA();
 
  TLegend *legend = new TLegend(0.7, 0.9, 0.9, 0.7);
  legend->AddEntry(massnumbersInclAbla, "INCL/ABLA", "l");
@@ -100,7 +101,8 @@ nitrogenIsotopesPrecoFermi->SetLineColor(kBlue);
  chargenumbersInclAbla->Draw("same");
  chargenumbersBert->Draw("same");
  if(plotPrecoFermi) chargenumbersPrecoFermi->Draw("same");
- c1->SaveAs("Proton1GeVCarbon.ps");
+ plotExpZ();
+ c12->SaveAs("Proton1GeVCarbon.ps");
 
  TCanvas *c2 = new TCanvas("c2");
  c2->Divide(3, 3);
@@ -160,6 +162,106 @@ nitrogenIsotopesPrecoFermi->SetLineColor(kBlue);
  if(plotPrecoFermi) nitrogenIsotopesPrecoFermi->Draw("same");
  plotExpPoint(7);
  c2->SaveAs("Proton1GeVCarbon.ps)");
+}
+
+void plotExpZ() {
+  ifstream in("data/p1000MeVC/carbone.dat");
+  Int_t A, Z;
+  Float_t CX, error;
+  Int_t foundIndex = 0;
+  Int_t points = 0;
+  const Int_t maxPoints = 100;
+  Float_t graphZ[maxPoints], graphdZ[maxPoints],
+    grapherror[maxPoints], graphCX[maxPoints];
+  for(Int_t i = 0; i < maxPoints; i++) {
+    graphZ[i] = 0;
+    graphdZ[i] = 0;
+    graphCX[i] = 0;
+    grapherror[i] = 0;
+  }
+  while(1) {
+    in >> Z >> A >> CX >> error;
+    if(!in.good()) break;
+    foundIndex = 0;
+    if(points == 0) {
+      points++;
+      graphZ[points-1] = Z;
+      graphCX[points-1] = CX;
+    } else {
+      for(Int_t i = 0; i < points; i++) {
+	if(graphZ[i] == Z) {
+	  graphCX[i] += CX;
+	  foundIndex = 1;
+	  break;
+	}
+      }
+      if(foundIndex == 0) {
+	points++;
+	graphZ[points-1] = Z;
+	graphCX[points-1] = CX;
+	cout <<"Added A = " << Z << "  CX = " << CX << " points = " << points << endl;
+	foundIndex = 1;
+      }
+    }
+  }
+  in.close();
+
+  TGraphErrors* grexp160= new TGraphErrors(points, graphZ, graphCX, graphdZ, grapherror);
+  grexp160->SetMarkerColor(4);
+  grexp160->SetMarkerStyle(21);
+  grexp160->SetMarkerSize(0.5);
+
+  grexp160->Draw("PZ");
+}
+
+void plotExpA() {
+  ifstream in("data/p1000MeVC/carbone.dat");
+  Int_t A, Z;
+  Float_t CX, error;
+  Int_t foundIndex = 0;
+  Int_t points = 0;
+  const Int_t maxPoints = 100;
+  Float_t graphA[maxPoints], graphdA[maxPoints],
+    grapherror[maxPoints], graphCX[maxPoints];
+  for(Int_t i = 0; i < maxPoints; i++) {
+    graphA[i] = 0;
+    graphdA[i] = 0;
+    graphCX[i] = 0;
+    grapherror[i] = 0;
+  }
+  while(1) {
+    in >> Z >> A >> CX >> error;
+    if(!in.good()) break;
+    foundIndex = 0;
+    if(points == 0) {
+      points++;
+      graphA[points-1] = A;
+      graphCX[points-1] = CX;
+    } else {
+      for(Int_t i = 0; i < points; i++) {
+	if(graphA[i] == A) {
+	  graphCX[i] += CX;
+	  foundIndex = 1;
+	  break;
+	}
+      }
+      if(foundIndex == 0) {
+	points++;
+	graphA[points-1] = A;
+	graphCX[points-1] = CX;
+	cout <<"Added Z = " << Z << "  CX = " << CX << " points = " << points << endl;
+	foundIndex = 1;
+      }
+    }
+  }
+  in.close();
+
+  TGraphErrors* grexp160= new TGraphErrors(points, graphA, graphCX, graphdA, grapherror);
+  grexp160->SetMarkerColor(4);
+  grexp160->SetMarkerStyle(21);
+  grexp160->SetMarkerSize(0.5);
+
+  grexp160->Draw("PZ");
 }
 
 void plotExpPoint(Int_t theZ) {
