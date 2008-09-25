@@ -1,4 +1,6 @@
 {
+cout <<"Compiling and loading histogram factory..." << endl;
+gROOT->LoadMacro("HistoFactory.C+");
 cout <<"Compiling and loading analyzer..." << endl;
 gROOT->LoadMacro("FermiAnalyzer.C+");
 cout <<"Analyze a data tree: data->Process(\"FermiAnalyzer\", \"outputFile.root\")" << endl; 

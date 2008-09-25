@@ -15,11 +15,16 @@
 #include <TH1F.h>
 #include <TH1I.h>
 
+#include "HistoFactory.h"
+
 class FermiAnalyzer : public TSelector {
 public :
   FermiAnalyzer(TString &outputFile);
 
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+
+   // Histogram factory:
+   HistoFactory *histoFactory;
 
 // Output file:
  TString *outputFileName; 
@@ -28,6 +33,7 @@ public :
  TH1F *protonEnergyIntegratedLogx;
  TH1F *protonEnergyIntegrated;
  TH1F *ddHistBinWidths;
+ TH1F *ddPHistBinWidths;
  TH1F *chargenumbers;
  TH1F *massnumbers;
  TH1F *hydrogenIsotopes;
@@ -54,8 +60,20 @@ public :
 
  TH1F *protonDD11;
  TH1F *protonDD11Lin;
+ TH1F *protonDD13;
+ TH1F *protonDD13Lin;
+ TH1F *protonDD15;
+ TH1F *protonDD15Lin;
+ TH1F *protonDD20;
+ TH1F *protonDD20Lin;
+ TH1F *protonDD25;
+ TH1F *protonDD25Lin;
+ TH1F *protonDD30;
+ TH1F *protonDD30Lin;
  TH1F *protonDD50;
  TH1F *protonDD50Lin;
+
+ TH1F *protonMomentumDD20;
 
  Float_t minE, maxE;
  Float_t DDLinBinWidth;

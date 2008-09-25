@@ -35,6 +35,9 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    // When running with PROOF Begin() is only called on the client.
    // The tree argument is deprecated (on PROOF 0 is passed).
 
+  // Create a histogram factory:
+  histoFactory = new HistoFactory();
+
   // Option format:
   // out=output.root:cx=1.2e2:emax=1000
    TString option = GetOption();
@@ -51,24 +54,32 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    // Initialize double-differential energy spectra:
    //   Float_t emax = 1000.0;
    Float_t emin = 1.0;
+   Float_t pmin = 1.0;
+   Float_t pmax = TMath::Sqrt(emax*emax + 1000.0*1000.0);
+
    Float_t xbins[99+1];
+   Float_t pxbins[99+1];
    DDLinBinWidth = emax/99.0; 
    Float_t fact=(log(emax)-log(emin))/99;
+   Float_t factp=(log(pmax)-log(pmin))/99;
    Int_t index = 99+1;
    for(Int_t i=0;i<99+1;++i) {
      index--;
      xbins[i]=exp(log(emin)+fact*i);
+     pxbins[i]=exp(log(pmin)+factp*i);
    }
 
    ddHistBinWidths = new TH1F("ddHistBinWidths","",99,xbins);
+   ddPHistBinWidths = new TH1F("ddPHistBinWidths","",99,pxbins);
    for(Int_t i=0;i<99;++i) {
      ddHistBinWidths->SetBinContent(i,(Double_t)1./(xbins[i+1]-xbins[i]));
+     ddPHistBinWidths->SetBinContent(i, (Double_t)1./(pxbins[i+1]-pxbins[i]));
    }
    //   de=1.0;
 
    // histo = HistoFactory::create1D("name", "title", "xlabel", "ylabel", bins, minx, maxx);
    // histologlog = HistoFactory::create1DLogx("name", "title", "xlabel", "ylabel", bins, minx, maxx);
-   chargenumbers = new TH1F("chargenumbers", "Massnumber distribution", 14, 0.5, 14.5);
+   chargenumbers = new TH1F("chargenumbers", "Chargenumber distribution", 14, 0.5, 14.5);
    chargenumbers->GetXaxis()->SetTitle("Charge number");
    chargenumbers->GetYaxis()->SetTitle("#sigma (mb)");
    chargenumbers->SetLineWidth(2);
@@ -80,8 +91,7 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    hydrogenIsotopes->GetXaxis()->SetTitle("Mass number");
    hydrogenIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
    hydrogenIsotopes->SetLineWidth(2);
-   heliumIsotopes = new TH1F("heliumIsotopes", "Helium isotopes", 14, 0.5, 14.5
-);
+   heliumIsotopes = new TH1F("heliumIsotopes", "Helium isotopes", 14, 0.5, 14.5);
    heliumIsotopes->GetXaxis()->SetTitle("Mass number");
    heliumIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
    heliumIsotopes->SetLineWidth(2);
@@ -125,9 +135,31 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
 
    protonDD11 = new TH1F("protonDD11", "Angle 11 deg", 99, xbins);
    protonDD11Lin = new TH1F("protonDD11Lin", "Angle 11 deg", 99, 0.0, emax);
+   protonDD13 = histoFactory->create1DLogx("protonDD13", "Angle 13 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 1.0, emax);
+   protonDD13Lin = histoFactory->create1D("protonDD13Lin", "Angle 13 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 0.0, emax);
+   protonDD15 = histoFactory->create1DLogx("protonDD15", "Angle 15 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 1.0, emax);
+   protonDD15Lin = histoFactory->create1D("protonDD15Lin", "Angle 15 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 0.0, emax);
+   protonDD20 = histoFactory->create1DLogx("protonDD20", "Angle 20 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 1.0, emax);
+   protonDD20Lin = histoFactory->create1D("protonDD20Lin", "Angle 20 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 0.0, emax);
+   protonDD25 = histoFactory->create1DLogx("protonDD25", "Angle 25 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 1.0, emax);
+   protonDD25Lin = histoFactory->create1D("protonDD25Lin", "Angle 25 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 0.0, emax);
+   protonDD30 = histoFactory->create1DLogx("protonDD30", "Angle 30 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 1.0, emax);
+   protonDD30Lin = histoFactory->create1D("protonDD30Lin", "Angle 30 deg", "Proton energy (MeV)", "#sigma (mb)",
+					  99, 0.0, emax);
    protonDD50 = new TH1F("protonDD50", "Angle 50 deg", 99, xbins);
    protonDD50Lin = new TH1F("protonDD50Lin", "Angle 50 deg", 99, 0.0, emax);
 
+   protonMomentumDD20 = histoFactory->create1DLogx("protonMomentumDD20", "Angle 20 deg", "Proton momentum (MeV/c)",
+						   "#sigma", 99, 1.0, pmax);
    //   neutronDD21 = new TH1F("neutronDD11", "Neutrons in angle 11 deg", nbins, energies);
 }
 
@@ -219,6 +251,37 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       protonDD11Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
+    if(theta > (13.0 - dTheta) && theta < (13.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 13.0, dTheta);
+      protonDD13->Fill(kinE, weight);
+      protonDD13Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (15.0 - dTheta) && theta < (15.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 15.0, dTheta);
+      protonDD15->Fill(kinE, weight);
+      protonDD15Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (20.0 - dTheta) && theta < (20.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 20.0, dTheta);
+      protonDD20->Fill(kinE, weight);
+      protonMomentumDD20->Fill(mom, weight);
+      protonDD20Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (25.0 - dTheta) && theta < (25.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 25.0, dTheta);
+      protonDD25->Fill(kinE, weight);
+      protonDD25Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (30.0 - dTheta) && theta < (30.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 30.0, dTheta);
+      protonDD30->Fill(kinE, weight);
+      protonDD30Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
     if(theta > (50.0 - dTheta) && theta < (50.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 50.0, dTheta);
       protonDD50->Fill(kinE, weight);
@@ -298,7 +361,14 @@ void FermiAnalyzer::Terminate()
   neutronDD50->Multiply(neutronDD50, ddHistBinWidths, 1.0, 1.0);
 
   protonDD11->Multiply(protonDD11, ddHistBinWidths, 1.0, 1.0);
+  protonDD13->Multiply(protonDD13, ddHistBinWidths, 1.0, 1.0);
+  protonDD15->Multiply(protonDD15, ddHistBinWidths, 1.0, 1.0);
+  protonDD20->Multiply(protonDD20, ddHistBinWidths, 1.0, 1.0);
+  protonDD25->Multiply(protonDD25, ddHistBinWidths, 1.0, 1.0);
+  protonDD30->Multiply(protonDD30, ddHistBinWidths, 1.0, 1.0);
   protonDD50->Multiply(protonDD50, ddHistBinWidths, 1.0, 1.0);
+
+  protonMomentumDD20->Multiply(protonMomentumDD20, ddPHistBinWidths, 1.0, 1.0);
 
   resultsOut->Write();
   resultsOut->Close();
