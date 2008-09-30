@@ -73,7 +73,18 @@ public :
  TH1F *protonDD50;
  TH1F *protonDD50Lin;
 
+ TH1F *protonMomentumDD11;
+ TH1F *protonMomentumDD13;
+ TH1F *protonMomentumDD15;
  TH1F *protonMomentumDD20;
+ TH1F *protonMomentumDD25;
+ TH1F *protonMomentumDD30;
+ TH1F *protonMomentumDD11Lin;
+ TH1F *protonMomentumDD13Lin;
+ TH1F *protonMomentumDD15Lin;
+ TH1F *protonMomentumDD20Lin;
+ TH1F *protonMomentumDD25Lin;
+ TH1F *protonMomentumDD30Lin;
 
  Float_t minE, maxE;
  Float_t DDLinBinWidth;
