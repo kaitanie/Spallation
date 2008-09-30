@@ -1,4 +1,5 @@
 void plotCarbon() {
+  Bool_t compareStoppint = false;
 Bool_t plotPrecoFermi = false;
 TFile *f0 = new TFile("resultsInclAblaWithFermi.root");
 TFile *f1 = new TFile("resultsInclAbla.root");
@@ -6,6 +7,11 @@ TFile *f2 = new TFile("resultsBertini.root");
 if(plotPrecoFermi) {
   TFile *f4 = new TFile("resultsPrecoFermi.root");
 }
+ if(compareStopping) {
+   TFile *stop2f = new TFile("resultsInclAblaWithFermiStopAt2.root");
+   TFile *stop5f = new TFile("resultsInclAblaWithFermiStopAt5.root");
+   TFile *stop10f = new TFile("resultsInclAblaWithFermiStopAt10.root");
+ }
 
 TH1F *chargenumbersInclAblaFermi = (TH1F *) f0->Get("chargenumbers");
 TH1F *massnumbersInclAblaFermi = (TH1F *) f0->Get("massnumbers");
