@@ -18,6 +18,18 @@ TFile *f2 = new TFile("../runs/bertiniCarbonProton1GeV.root");
 //TFile *f3 = new TFile("binaryCarbonProton1GeV.root");
 TFile *f4 = new TFile("../runs/precoFermiCarbonProton1GeV.root");
 
+TFile *stop2 = new TFile("../runs/inclStoppingAt2CarbonProton1GeV.root");
+data = (TTree *) stop2->Get("data");
+data->Process(carbonAnalyzer,  "resultsStopAt2InclAblaWithFermi.root");
+
+TFile *stop5 = new TFile("../runs/inclStoppingAt5CarbonProton1GeV.root");
+data = (TTree *) stop5->Get("data");
+data->Process(carbonAnalyzer,  "resultsStopAt5InclAblaWithFermi.root");
+
+TFile *stop10 = new TFile("../runs/inclStoppingAt10CarbonProton1GeV.root");
+data = (TTree *) stop10->Get("data");
+data->Process(carbonAnalyzer,  "resultsStopAt10InclAblaWithFermi.root");
+
 data = (TTree *) f0->Get("data");
 data->Process(carbonAnalyzer, "resultsInclAblaWithFermi.root");
 
