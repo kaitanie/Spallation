@@ -1,5 +1,5 @@
 void plotCarbon() {
-  Bool_t compareStoppint = false;
+  Bool_t compareStopping = true;
   Bool_t plotPrecoFermi = false;
   TFile *f0 = new TFile("resultsInclAblaWithFermi.root");
   TFile *f1 = new TFile("resultsInclAbla.root");
@@ -8,9 +8,56 @@ void plotCarbon() {
     TFile *f4 = new TFile("resultsPrecoFermi.root");
   }
   if(compareStopping) {
-    TFile *stop2f = new TFile("resultsInclAblaWithFermiStopAt2.root");
-    TFile *stop5f = new TFile("resultsInclAblaWithFermiStopAt5.root");
-    TFile *stop10f = new TFile("resultsInclAblaWithFermiStopAt10.root");
+    TFile *stop2f = new TFile("resultsStopAt2InclAblaWithFermi.root");
+    TH1F *chargenumbersInclAblaFermiStop2 = (TH1F *) stop2f->Get("chargenumbers");
+    TH1F *massnumbersInclAblaFermiStop2 = (TH1F *) stop2f->Get("massnumbers");
+    TH1F *hydrogenIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("hydrogenIsotopes");
+    TH1F *heliumIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("heliumIsotopes");
+    TH1F *lithiumIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("lithiumIsotopes");
+    TH1F *berylliumIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("berylliumIsotopes");
+    TH1F *boronIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("boronIsotopes");
+    TH1F *carbonIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("carbonIsotopes");
+    TH1F *nitrogenIsotopesInclAblaFermiStop2 = (TH1F *) stop2f->Get("nitrogenIsotopes");
+
+    TFile *stop5f = new TFile("resultsStopAt5InclAblaWithFermi.root");
+    TH1F *chargenumbersInclAblaFermiStop5 = (TH1F *) stop5f->Get("chargenumbers");
+    chargenumbersInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *massnumbersInclAblaFermiStop5 = (TH1F *) stop5f->Get("massnumbers");
+    massnumbersInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *hydrogenIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("hydrogenIsotopes");
+    hydrogenIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *heliumIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("heliumIsotopes");
+    heliumIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *lithiumIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("lithiumIsotopes");
+    lithiumIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *berylliumIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("berylliumIsotopes");
+    berylliumIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *boronIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("boronIsotopes");
+    boronIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *carbonIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("carbonIsotopes");
+    carbonIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+    TH1F *nitrogenIsotopesInclAblaFermiStop5 = (TH1F *) stop5f->Get("nitrogenIsotopes");
+    nitrogenIsotopesInclAblaFermiStop5->SetLineColor(kGreen);
+
+    TFile *stop10f = new TFile("resultsStopAt10InclAblaWithFermi.root");
+    TH1F *chargenumbersInclAblaFermiStop10 = (TH1F *) stop10f->Get("chargenumbers");
+    chargenumbersInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *massnumbersInclAblaFermiStop10 = (TH1F *) stop10f->Get("massnumbers");
+    massnumbersInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *hydrogenIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("hydrogenIsotopes");
+    hydrogenIsotopesInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *heliumIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("heliumIsotopes");
+    heliumIsotopesInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *lithiumIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("lithiumIsotopes");
+    lithiumIsotopesInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *berylliumIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("berylliumIsotopes");
+    berylliumIsotopesInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *boronIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("boronIsotopes");
+    boronIsotopesInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *carbonIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("carbonIsotopes");
+    carbonIsotopesInclAblaFermiStop10->SetLineColor(kRed);
+    TH1F *nitrogenIsotopesInclAblaFermiStop10 = (TH1F *) stop10f->Get("nitrogenIsotopes");
+    nitrogenIsotopesInclAblaFermiStop10->SetLineColor(kRed);
   }
 
   TH1F *chargenumbersInclAblaFermi = (TH1F *) f0->Get("chargenumbers");
@@ -167,7 +214,72 @@ void plotCarbon() {
   nitrogenIsotopesInclAbla->Draw("same");
   if(plotPrecoFermi) nitrogenIsotopesPrecoFermi->Draw("same");
   plotExpPoint(7);
-  c2->SaveAs("Proton1GeVCarbon.ps)");
+  if(compareStopping)
+    c2->SaveAs("Proton1GeVCarbon.ps");
+  else
+    c2->SaveAs("Proton1GeVCarbon.ps)");
+
+  if(compareStopping) {
+    TCanvas *c3 = new TCanvas("c3");
+    c3->Divide(3, 3);
+    c3->cd(1);
+    c3_1->SetLogy();
+    hydrogenIsotopesInclAblaFermiStop2->Draw();
+    hydrogenIsotopesInclAblaFermiStop5->Draw("same");
+    hydrogenIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(1);
+
+    c3->cd(2);
+    c3_2->SetLogy();
+    heliumIsotopesInclAblaFermiStop2->Draw();
+    heliumIsotopesInclAblaFermiStop5->Draw("same");
+    heliumIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(2);
+
+    c3->cd(3);
+    c3_3->SetLogy();
+    lithiumIsotopesInclAblaFermiStop2->Draw();
+    lithiumIsotopesInclAblaFermiStop5->Draw("same");
+    lithiumIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(3);
+
+    c3->cd(4);
+    c3_4->SetLogy();
+    berylliumIsotopesInclAblaFermiStop2->Draw();
+    berylliumIsotopesInclAblaFermiStop5->Draw("same");
+    berylliumIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(4);
+
+    c3->cd(5);
+    c3_5->SetLogy();
+    boronIsotopesInclAblaFermi->Draw();
+    boronIsotopesInclAblaFermiStop5->Draw("same");
+    boronIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(5);
+
+    c3->cd(6);
+    c3_6->SetLogy();
+    carbonIsotopesInclAblaFermiStop2->Draw();
+    carbonIsotopesInclAblaFermiStop5->Draw("same");
+    carbonIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(6);
+
+    c3->cd(7);
+    c3_7->SetLogy();
+    nitrogenIsotopesInclAblaFermiStop2->Draw();
+    nitrogenIsotopesInclAblaFermiStop5->Draw("same");
+    nitrogenIsotopesInclAblaFermiStop10->Draw("same");
+    plotExpPoint(7);
+
+    c3->cd(8);
+    TLegend *legendStop = new TLegend(0.1, 0.9, 0.9, 0.1);
+    legendStop->AddEntry(nitrogenIsotopesInclAblaFermiStop2, "Stop at A = 2", "l");
+    legendStop->AddEntry(nitrogenIsotopesInclAblaFermiStop5, "Stop at A = 5", "l");
+    legendStop->AddEntry(nitrogenIsotopesInclAblaFermiStop10, "Stop at A = 10", "l");
+    legendStop->Draw();
+    
+    c3->SaveAs("Proton1GeVCarbon.ps)");
+  }
 }
 
 void plotExpZ() {
