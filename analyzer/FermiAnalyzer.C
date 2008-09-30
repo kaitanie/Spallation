@@ -83,10 +83,12 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    chargenumbers->GetXaxis()->SetTitle("Charge number");
    chargenumbers->GetYaxis()->SetTitle("#sigma (mb)");
    chargenumbers->SetLineWidth(2);
+   totalChargeNumbers = histoFactory->create1D("totalChargeNumbers", "Total charge numbers", "Charge number", "#sigma (mb)", 14, 0.5, 14.5);
    massnumbers = new TH1F("massnumbers", "Massnumber distribution", 14, 0.5, 14.5);
    massnumbers->GetXaxis()->SetTitle("Mass number");
    massnumbers->GetYaxis()->SetTitle("#sigma (mb)");
    massnumbers->SetLineWidth(2);
+   totalMassNumbers = histoFactory->create1D("totalMassNumbers", "Total mass numbers", "Mass number", "#sigma (mb)", 14, 0.5, 14.5);
    hydrogenIsotopes = new TH1F("hydrogenIsotopes", "Hydrogen isotopes", 14, 0.5, 14.5);
    hydrogenIsotopes->GetXaxis()->SetTitle("Mass number");
    hydrogenIsotopes->GetYaxis()->SetTitle("#sigma (mb)");
@@ -323,28 +325,35 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
     }
   }
   //massnumbers->Fill(A);
-  massnumbers->Fill(A, GetWeight(crossSection, numberOfEvents));
-  chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
+  totalMassNumbers->Fill(A, GetWeight(crossSection, numberOfEvents));
+  totalChargeNumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   if(Z == 7) {
     nitrogenIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 6) {
     carbonIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 5) {
     boronIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 4) {
     berylliumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 3) {
     lithiumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 2) {
     heliumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   if(Z == 1) {
     hydrogenIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
+    chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
   }
   return kTRUE;
 }
@@ -408,6 +417,15 @@ void FermiAnalyzer::Terminate()
   protonMomentumDD20->Multiply(protonMomentumDD20, ddPHistBinWidths, 1.0, 1.0);
   protonMomentumDD25->Multiply(protonMomentumDD25, ddPHistBinWidths, 1.0, 1.0);
   protonMomentumDD30->Multiply(protonMomentumDD30, ddPHistBinWidths, 1.0, 1.0);
+
+  // Combine the mass distributions in the isotope production plots:
+  massnumbers->Add(hydrogenIsotopes);
+  massnumbers->Add(heliumIsotopes);
+  massnumbers->Add(lithiumIsotopes);
+  massnumbers->Add(berylliumIsotopes);
+  massnumbers->Add(boronIsotopes);
+  massnumbers->Add(carbonIsotopes);
+  massnumbers->Add(nitrogenIsotopes);
 
   resultsOut->Write();
   resultsOut->Close();
