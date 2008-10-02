@@ -1,9 +1,9 @@
 void plotCarbon() {
   Bool_t compareStopping = true;
   Bool_t plotPrecoFermi = false;
-  TFile *f0 = new TFile("resultsInclAblaWithFermi.root");
+  TFile *f0 = new TFile("resultsInclAblaWithFermi1M.root");
   TFile *f1 = new TFile("resultsInclAbla.root");
-  TFile *f2 = new TFile("resultsBertini.root");
+  TFile *f2 = new TFile("resultsBertini1M.root");
   if(plotPrecoFermi) {
     TFile *f4 = new TFile("resultsPrecoFermi.root");
   }
@@ -140,8 +140,8 @@ void plotCarbon() {
   plotExpA();
 
   TLegend *legend = new TLegend(0.7, 0.9, 0.9, 0.7);
-  legend->AddEntry(massnumbersInclAbla, "INCL/ABLA", "l");
-  legend->AddEntry(massnumbersInclAblaFermi, "INCL/ABLA with Fermi", "l");
+  legend->AddEntry(massnumbersInclAbla, "INCL4.2 ABLA", "l");
+  legend->AddEntry(massnumbersInclAblaFermi, "INCL4.2 with Fermi break-up", "l");
   legend->AddEntry(massnumbersBert, "Geant4 Bertini", "l");
   if(plotPrecoFermi)  legend->AddEntry(massnumbersPrecoFermi, "G4 Preco + Fermi", "l");
   legend->Draw();
