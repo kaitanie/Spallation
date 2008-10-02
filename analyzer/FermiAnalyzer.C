@@ -185,6 +185,71 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    protonMomentumDD30Lin = histoFactory->create1D("protonMomentumDD30Lin", "Angle 30 deg", "Proton momentum (MeV/c)",
 						   "#sigma", 99, 1.0, pmax);
    //   neutronDD21 = new TH1F("neutronDD11", "Neutrons in angle 11 deg", nbins, energies);
+
+   he3EnergyDD30 = histoFactory->create1DLogx("he3EnergyDD30", "Angle 30 deg", "He3 energy (MeV)",
+                                              "#sigma (mb)", 99, 1.0, emax);
+   he3EnergyDD30Lin = histoFactory->create1D("he3EnergyDD30Lin", "Angle 30 deg", "He3 energy (MeV)",
+                                             "#sigma (mb)", 99, 0.0, emax);
+   he3EnergyDD45 = histoFactory->create1DLogx("he3EnergyDD45", "Angle 45 deg", "He3 energy (MeV)",
+                                              "#sigma (mb)", 99, 1.0, emax);
+   he3EnergyDD45Lin = histoFactory->create1D("he3EnergyDD45Lin", "Angle 45 deg", "He3 energy (MeV)",
+                                             "#sigma (mb)", 99, 0.0, emax);
+   he3EnergyDD75 = histoFactory->create1DLogx("he3EnergyDD75", "Angle 75 deg", "He3 energy (MeV)",
+                                              "#sigma (mb)", 99, 1.0, emax);
+   he3EnergyDD75Lin = histoFactory->create1D("he3EnergyDD75Lin", "Angle 75 deg", "He3 energy (MeV)",
+                                             "#sigma (mb)", 99, 0.0, emax);
+   he3EnergyDD105 = histoFactory->create1DLogx("he3EnergyDD105", "Angle 105 deg", "He3 energy (MeV)",
+                                               "#sigma (mb)", 99, 1.0, emax);
+   he3EnergyDD105Lin = histoFactory->create1D("he3EnergyDD105Lin", "Angle 105 deg", "He3 energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   alphaEnergyDD30 = histoFactory->create1DLogx("alphaEnergyDD30", "Angle 30 deg", "Alpha energy (MeV)",
+                                              "#sigma (mb)", 99, 1.0, emax);
+   alphaEnergyDD30Lin = histoFactory->create1D("alphaEnergyDD30Lin", "Angle 30 deg", "Alpha energy (MeV)",
+                                               "#sigma (mb)", 99, 0.0, emax);
+   alphaEnergyDD45 = histoFactory->create1DLogx("alphaEnergyDD45", "Angle 45 deg", "Alpha energy (MeV)",
+                                               "#sigma (mb)", 99, 1.0, emax);
+   alphaEnergyDD45Lin = histoFactory->create1D("alphaEnergyDD45Lin", "Angle 45 deg", "Alpha energy (MeV)",
+                                               "#sigma (mb)", 99, 0.0, emax);
+   alphaEnergyDD75 = histoFactory->create1DLogx("alphaEnergyDD75", "Angle 75 deg", "Alpha energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   alphaEnergyDD75Lin = histoFactory->create1D("alphaEnergyDD75Lin", "Angle 75 deg", "Alpha energy (MeV)",
+                                               "#sigma (mb)", 99, 0.0, emax);
+   alphaEnergyDD105 = histoFactory->create1DLogx("alphaEnergyDD105", "Angle 105 deg", "Alpha energy (MeV)",
+                                                 "#sigma (mb)", 99, 1.0, emax);
+   alphaEnergyDD105Lin = histoFactory->create1D("alphaEnergyDD105Lin", "Angle 105 deg", "Alpha energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   deuteronEnergyDD30 = histoFactory->create1DLogx("deuteronEnergyDD30", "Angle 30 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   deuteronEnergyDD30Lin = histoFactory->create1D("deuteronEnergyDD30Lin", "Angle 30 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   deuteronEnergyDD45 = histoFactory->create1DLogx("deuteronEnergyDD45", "Angle 45 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   deuteronEnergyDD45Lin = histoFactory->create1D("deuteronEnergyDD45Lin", "Angle 45 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   deuteronEnergyDD75 = histoFactory->create1DLogx("deuteronEnergyDD75", "Angle 75 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   deuteronEnergyDD75Lin = histoFactory->create1D("deuteronEnergyDD75Lin", "Angle 75 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   deuteronEnergyDD105 = histoFactory->create1DLogx("deuteronEnergyDD105", "Angle 105 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   deuteronEnergyDD105Lin = histoFactory->create1D("deuteronEnergyDD105Lin", "Angle 105 deg", "Deuteron energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   tritonEnergyDD30 = histoFactory->create1DLogx("tritonEnergyDD30", "Angle 30 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   tritonEnergyDD30Lin = histoFactory->create1D("tritonEnergyDD30Lin", "Angle 30 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   tritonEnergyDD45 = histoFactory->create1DLogx("tritonEnergyDD45", "Angle 45 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   tritonEnergyDD45Lin = histoFactory->create1D("tritonEnergyDD45Lin", "Angle 45 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   tritonEnergyDD75 = histoFactory->create1DLogx("tritonEnergyDD75", "Angle 75 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   tritonEnergyDD75Lin = histoFactory->create1D("tritonEnergyDD75Lin", "Angle 75 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
+   tritonEnergyDD105 = histoFactory->create1DLogx("tritonEnergyDD105", "Angle 105 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 1.0, emax);
+   tritonEnergyDD105Lin = histoFactory->create1D("tritonEnergyDD105Lin", "Angle 105 deg", "Triton energy (MeV)",
+                                                "#sigma (mb)", 99, 0.0, emax);
 }
 
 void FermiAnalyzer::SlaveBegin(TTree * /*tree*/)
@@ -350,10 +415,98 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
   if(Z == 2) {
     heliumIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
     chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
+    if(A == 3) {  // Helium3
+    	if(theta > (30.0 - dTheta) && theta < (30.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 30.0, dTheta);
+		he3EnergyDD30->Fill(kinE, weight);
+		he3EnergyDD30Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (45.0 - dTheta) && theta < (45.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 45.0, dTheta);
+		he3EnergyDD45->Fill(kinE, weight);
+		he3EnergyDD45Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (75.0 - dTheta) && theta < (75.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 75.0, dTheta);
+		he3EnergyDD75->Fill(kinE, weight);
+		he3EnergyDD75Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (105.0 - dTheta) && theta < (105.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 105.0, dTheta);
+		he3EnergyDD105->Fill(kinE, weight);
+		he3EnergyDD105Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    }
+    if(A == 4) {  // Alphas
+    	if(theta > (30.0 - dTheta) && theta < (30.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 30.0, dTheta);
+		alphaEnergyDD30->Fill(kinE, weight);
+		alphaEnergyDD30Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (45.0 - dTheta) && theta < (45.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 45.0, dTheta);
+		alphaEnergyDD45->Fill(kinE, weight);
+		alphaEnergyDD45Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (75.0 - dTheta) && theta < (75.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 75.0, dTheta);
+		alphaEnergyDD75->Fill(kinE, weight);
+		alphaEnergyDD75Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (105.0 - dTheta) && theta < (105.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 105.0, dTheta);
+		alphaEnergyDD105->Fill(kinE, weight);
+		alphaEnergyDD105Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    }
   }
   if(Z == 1) {
     hydrogenIsotopes->Fill(A, GetWeight(crossSection, numberOfEvents));
     chargenumbers->Fill(Z, GetWeight(crossSection, numberOfEvents));
+    if(A == 2) {  // Deuterons
+    	if(theta > (30.0 - dTheta) && theta < (30.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 30.0, dTheta);
+		deuteronEnergyDD30->Fill(kinE, weight);
+		deuteronEnergyDD30Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (45.0 - dTheta) && theta < (45.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 45.0, dTheta);
+		deuteronEnergyDD45->Fill(kinE, weight);
+		deuteronEnergyDD45Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (75.0 - dTheta) && theta < (75.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 75.0, dTheta);
+		deuteronEnergyDD75->Fill(kinE, weight);
+		deuteronEnergyDD75Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (105.0 - dTheta) && theta < (105.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 105.0, dTheta);
+		deuteronEnergyDD105->Fill(kinE, weight);
+		deuteronEnergyDD105Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    }
+    if(A == 3) {  // Tritons
+    	if(theta > (30.0 - dTheta) && theta < (30.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 30.0, dTheta);
+		tritonEnergyDD30->Fill(kinE, weight);
+		tritonEnergyDD30Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (45.0 - dTheta) && theta < (45.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 45.0, dTheta);
+		tritonEnergyDD45->Fill(kinE, weight);
+		tritonEnergyDD45Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (75.0 - dTheta) && theta < (75.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 75.0, dTheta);
+		tritonEnergyDD75->Fill(kinE, weight);
+		tritonEnergyDD75Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    	if(theta > (105.0 - dTheta) && theta < (105.0 + dTheta)) {
+		weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 105.0, dTheta);
+		tritonEnergyDD105->Fill(kinE, weight);
+		tritonEnergyDD105Lin->Fill(kinE, GetWeight(crossSection, numberOfEvents));	
+	}
+    }
   }
   return kTRUE;
 }
@@ -417,6 +570,26 @@ void FermiAnalyzer::Terminate()
   protonMomentumDD20->Multiply(protonMomentumDD20, ddPHistBinWidths, 1.0, 1.0);
   protonMomentumDD25->Multiply(protonMomentumDD25, ddPHistBinWidths, 1.0, 1.0);
   protonMomentumDD30->Multiply(protonMomentumDD30, ddPHistBinWidths, 1.0, 1.0);
+
+  he3EnergyDD30->Multiply(he3EnergyDD30, ddHistBinWidths, 1.0, 1.0);
+  he3EnergyDD45->Multiply(he3EnergyDD45, ddHistBinWidths, 1.0, 1.0);  
+  he3EnergyDD75->Multiply(he3EnergyDD75, ddHistBinWidths, 1.0, 1.0);
+  he3EnergyDD105->Multiply(he3EnergyDD105, ddHistBinWidths, 1.0, 1.0);
+
+  alphaEnergyDD30->Multiply(alphaEnergyDD30, ddHistBinWidths, 1.0, 1.0);
+  alphaEnergyDD45->Multiply(alphaEnergyDD45, ddHistBinWidths, 1.0, 1.0);  
+  alphaEnergyDD75->Multiply(alphaEnergyDD75, ddHistBinWidths, 1.0, 1.0);
+  alphaEnergyDD105->Multiply(alphaEnergyDD105, ddHistBinWidths, 1.0, 1.0);
+
+  deuteronEnergyDD30->Multiply(deuteronEnergyDD30, ddHistBinWidths, 1.0, 1.0);
+  deuteronEnergyDD45->Multiply(deuteronEnergyDD45, ddHistBinWidths, 1.0, 1.0);  
+  deuteronEnergyDD75->Multiply(deuteronEnergyDD75, ddHistBinWidths, 1.0, 1.0);
+  deuteronEnergyDD105->Multiply(deuteronEnergyDD105, ddHistBinWidths, 1.0, 1.0);
+
+  tritonEnergyDD30->Multiply(tritonEnergyDD30, ddHistBinWidths, 1.0, 1.0);
+  tritonEnergyDD45->Multiply(tritonEnergyDD45, ddHistBinWidths, 1.0, 1.0);  
+  tritonEnergyDD75->Multiply(tritonEnergyDD75, ddHistBinWidths, 1.0, 1.0);
+  tritonEnergyDD105->Multiply(tritonEnergyDD105, ddHistBinWidths, 1.0, 1.0);
 
   // Combine the mass distributions in the isotope production plots:
   massnumbers->Add(hydrogenIsotopes);
