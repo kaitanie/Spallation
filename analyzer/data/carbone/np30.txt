@@ -1,0 +1,13 @@
+NP 30, (1962) 475-487  (table 3, p.484) 
+
+
+neutron production cross sections at 0 degree (p(140MeV) + X)
+ 
+                            
+Element (X)          Xsect           Error
+                      mb              mb
+		      
+   Be                 84               4
+   C                  65               4
+   Pb                453              28
+   U                 475              29
