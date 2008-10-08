@@ -1,0 +1,42 @@
+//---------------------------------------
+//        Macro file for test30
+//         examine PostStepDoIt 
+//        for hadronic physics
+//      Created: 13.03.2002 V.Ivanchenko
+//--------------------------------------- 
+#verbose
+0
+#events
+100000
+//--------Proton_processes
+#particle
+proton
+//--------
+#material
+Al
+#energy(MeV)
+256.
+#sigmae(MeV)
+0.0
+#emax(MeV)
+256.
+#nbinse
+70
+#nbinsd
+70
+#elim(MeV)
+2.
+#nangle
+5
+#angles
+7.5 30. 60. 120. 150.
+#dangle
+10.
+//--------
+#generator
+incl
+#paw
+inclOldAl.root
+#run
+/--------Exit
+#exit
