@@ -134,6 +134,12 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    neutronDD50Lin = new TH1F("neutronDD50Lin", "Angle 50 deg", 99, 0.0, emax);
 
    protonEnergyIntegratedLogx = new TH1F("protonEnergyIntegratedLogx", "Integrated proton energies", 99, xbins);
+//   neutronEnergyIntegratedLogx = new TH1F("neutronEnergyIntegratedLogx", "Integrated neutron energies", 99, xbins);
+   neutronEnergyIntegratedLogx = histoFactory->create1DLogx("neutronEnergyIntegratedLogx",
+                                "Integrated neutron energies", "Neutron energy (MeV)",
+				"#sigma (mb)", 99, emin, emax);
+
+
 
    protonDD11 = new TH1F("protonDD11", "Angle 11 deg", 99, xbins);
    protonDD11Lin = new TH1F("protonDD11Lin", "Angle 11 deg", 99, 0.0, emax);
@@ -223,6 +229,7 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
   //  Float_t crossSection = 2.220000e+02;
   if(A == 1 && Z == 0) {
     neutronEnergyIntegrated->Fill(kinE, GetWeight(crossSection, numberOfEvents));
+    neutronEnergyIntegratedLogx->Fill(kinE, GetWeight(crossSection, numberOfEvents));
 
     if(theta > (0.0 - dTheta) && theta < (0.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 0.0, dTheta);
@@ -394,6 +401,7 @@ void FermiAnalyzer::Terminate()
    // a query. It always runs on the client, it can be used to present
    // the results graphically or save the results to file.
 
+  neutronEnergyIntegratedLogx->Multiply(neutronEnergyIntegratedLogx, ddHistBinWidths, 1.0, 1.0);
   protonEnergyIntegratedLogx->Multiply(protonEnergyIntegratedLogx, ddHistBinWidths, 1.0, 1.0);
   neutronDD0->Multiply(neutronDD0, ddHistBinWidths, 1.0, 1.0);
   neutronDD7_5->Multiply(neutronDD7_5, ddHistBinWidths, 1.0, 1.0);

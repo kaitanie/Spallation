@@ -32,6 +32,7 @@ public :
  TH1F *totalChargeNumbers, *totalMassNumbers;
  TH1F *neutronEnergyIntegrated;
  TH1F *protonEnergyIntegratedLogx;
+ TH1F *neutronEnergyIntegratedLogx;
  TH1F *protonEnergyIntegrated;
  TH1F *ddHistBinWidths;
  TH1F *ddPHistBinWidths;
