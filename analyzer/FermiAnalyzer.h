@@ -46,7 +46,9 @@ public :
  TH1F *nitrogenIsotopes;
  TH1F *neutronDD0;
  TH1F *neutronDD0Lin;
- TH1F *neutronDD7_5;
+ TH1F *neutronDD5;
+ TH1F *neutronDD5Lin;
+  TH1F *neutronDD7_5;
  TH1F *neutronDD7_5Lin;
  TH1F *neutronDD10;
  TH1F *neutronDD10Lin;

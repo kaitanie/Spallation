@@ -120,6 +120,10 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
 
    neutronDD0 = new TH1F("neutronDD0", "Angle 0 deg", 99, xbins);
    neutronDD0Lin = new TH1F("neutronDD0Lin", "Angle 0 deg", 99, 0.0, emax);
+   neutronDD5 = histoFactory->create1DLogx("neutronDD5", "Angle 5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD5Lin = histoFactory->create1D("neutronDD5Lin", "Angle 5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
    neutronDD7_5 = new TH1F("neutronDD7_5", "Angle 7.5 deg", 99, xbins);
    neutronDD7_5Lin = new TH1F("neutronDD7_5Lin", "Angle 7.5 deg", 99, 0.0, emax);
    neutronDD10 = new TH1F("neutronDD10", "Angle 10 deg", 99, xbins);
@@ -293,6 +297,12 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 0.0, dTheta);
       neutronDD0->Fill(kinE, weight);
       neutronDD0Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (5.0 - dTheta) && theta < (5.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 5.0, dTheta);
+      neutronDD5->Fill(kinE, weight);
+      neutronDD5Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
     if(theta > (7.5 - dTheta) && theta < (7.5 + dTheta)) {
@@ -549,6 +559,7 @@ void FermiAnalyzer::Terminate()
 
   protonEnergyIntegratedLogx->Multiply(protonEnergyIntegratedLogx, ddHistBinWidths, 1.0, 1.0);
   neutronDD0->Multiply(neutronDD0, ddHistBinWidths, 1.0, 1.0);
+  neutronDD5->Multiply(neutronDD5, ddHistBinWidths, 1.0, 1.0);
   neutronDD7_5->Multiply(neutronDD7_5, ddHistBinWidths, 1.0, 1.0);
   neutronDD10->Multiply(neutronDD10, ddHistBinWidths, 1.0, 1.0);
   neutronDD11->Multiply(neutronDD11, ddHistBinWidths, 1.0, 1.0);
