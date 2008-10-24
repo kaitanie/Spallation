@@ -7,20 +7,20 @@
 #verbose
 0
 #events
-1000000
+100000
 //--------Proton_processes
 #ion
 6 12
 //--------
 #material
-C
+Pb
 #energy(MeV)
-3480.
+4800.
 // 12 * 290 MeV
 #sigmae(MeV)
 0.5
 #emax(MeV)
-700.
+4800.
 #nbinse
 100
 #nbinsd
@@ -35,9 +35,9 @@ C
 2.
 //--------
 #generator
-binary_ion
+incl_ion
 #paw
-bin.paw
+inclion.root
 #run
 //--------Exit
 #exit

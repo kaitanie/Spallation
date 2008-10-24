@@ -7,13 +7,13 @@
 #verbose
 0
 #events
-1000000
+100000
 //--------Proton_processes
 #ion
 6 12
 //--------
 #material
-C
+O
 #energy(MeV)
 3480.
 // 12 * 290 MeV
@@ -35,9 +35,9 @@ C
 2.
 //--------
 #generator
-binary_ion
+incl_ion
 #paw
-bin.paw
+inclion.root
 #run
 //--------Exit
 #exit
