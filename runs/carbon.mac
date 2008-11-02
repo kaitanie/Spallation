@@ -36,7 +36,7 @@ C
 #generator
 incl
 #paw
-inclCarbonProton1GeV.root
+inclNoFermiCarbonProton1GeV.root
 #run
 //--------Exit
 #exit

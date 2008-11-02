@@ -1,5 +1,5 @@
 void plotCarbon() {
-  Bool_t compareStopping = true;
+  Bool_t compareStopping = false;
   Bool_t plotPrecoFermi = false;
   TFile *f0 = new TFile("resultsInclAblaWithFermi.root");
   TFile *f1 = new TFile("resultsInclAbla.root");
@@ -133,16 +133,16 @@ void plotCarbon() {
   TCanvas *c1 = new TCanvas();
   c1->SetLogy();
   massnumbersBert->Draw();
-  massnumbersInclAblaFermi->Draw();
+  massnumbersInclAblaFermi->Draw("same");
   massnumbersInclAbla->Draw("same");
-  massnumbersBert->Draw("same");
+  //  massnumbersBert->Draw("same");
   if(plotPrecoFermi) massnumbersPrecoFermi->Draw("same");
   plotExpA();
 
   TLegend *legend = new TLegend(0.7, 0.9, 0.9, 0.7);
-  legend->AddEntry(massnumbersInclAbla, "INCL/ABLA", "l");
-  legend->AddEntry(massnumbersInclAblaFermi, "INCL/ABLA with Fermi", "l");
-  legend->AddEntry(massnumbersBert, "Geant4 Bertini", "l");
+  legend->AddEntry(massnumbersInclAbla, "INCL4.2 + ABLA", "l");
+  legend->AddEntry(massnumbersInclAblaFermi, "INCL4.2 + Fermi break-up", "l");
+  legend->AddEntry(massnumbersBert, "Geant4 Bertini (9.2 beta)", "l");
   if(plotPrecoFermi)  legend->AddEntry(massnumbersPrecoFermi, "G4 Preco + Fermi", "l");
   legend->Draw();
   c1->SaveAs("Proton1GeVCarbon.ps(");
@@ -155,6 +155,12 @@ void plotCarbon() {
   chargenumbersBert->Draw("same");
   if(plotPrecoFermi) chargenumbersPrecoFermi->Draw("same");
   plotExpZ();
+  TLegend *legend = new TLegend(0.7, 0.9, 0.9, 0.7);
+  legend->AddEntry(chargenumbersInclAbla, "INCL4.2 + ABLA", "l");
+  legend->AddEntry(chargenumbersInclAblaFermi, "INCL4.2 + Fermi break-up", "l");
+  legend->AddEntry(chargenumbersBert, "Geant4 Bertini (9.2 beta)", "l");
+  if(plotPrecoFermi)  legend->AddEntry(massnumbersPrecoFermi, "G4 Preco + Fermi", "l");
+  legend->Draw();
   c12->SaveAs("Proton1GeVCarbon.ps");
 
   TCanvas *c2 = new TCanvas("c2");
@@ -214,6 +220,14 @@ void plotCarbon() {
   nitrogenIsotopesInclAbla->Draw("same");
   if(plotPrecoFermi) nitrogenIsotopesPrecoFermi->Draw("same");
   plotExpPoint(7);
+
+  c2->cd(8);
+  TLegend *legendI = new TLegend(0.1, 0.9, 0.9, 0.1);
+  legendI->AddEntry(nitrogenIsotopesInclAbla, "INCL4.2 + ABLA", "l");
+  legendI->AddEntry(nitrogenIsotopesInclAblaFermi, "INCL4.2 + Fermi break-up", "l");
+  legendI->AddEntry(nitrogenIsotopesBert, "Geant4 Bertini (9.2 beta)", "l");
+  legendI->Draw();
+
   if(compareStopping)
     c2->SaveAs("Proton1GeVCarbon.ps");
   else
