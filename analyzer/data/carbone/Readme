@@ -1,0 +1,34 @@
+Filename                      reaction            observable
+________________________________________________________________________________
+
+data_Table_nC.txt             n(E<75MeV)+C        lcp dble diff XS
+(data_Table.readme)
+
+
+inc30-c.txt                   p(600MeV)+C         lcp spectra
+
+
+np30.txt                      p(140MeV)+C         neutron XS at 0 degree
+
+
+scan_np13.txt                 p(660MeV)+C         lcp(integrated) ang. distrib.
+
+
+scan_prc21-11.txt
+scan_prc21-13.txt
+scan_prc21-15.txt             p(800MeV)+C         proton diff XS (11-->30degree)
+scan_prc21-20.txt
+scan_prc21-25.txt
+scan_prc21-30.txt
+
+
+scan_prc36-1.txt              p(585MeV)+C         energy-integrated N XS
+
+
+scan_prc8-3.txt               p(62/39/29MeV)+C    yields of lcp
+
+
+800c300data1                
+800c600data1                  p(800MeV)+C        neutron Double-Diff Cross Section (b/sr/MeV)
+800c1200data1                                      (Energy  --  DDXS  --  Error)
+800c1500data1

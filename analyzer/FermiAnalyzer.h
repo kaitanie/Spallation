@@ -47,7 +47,9 @@ public :
  TH1F *nitrogenIsotopes;
  TH1F *neutronDD0;
  TH1F *neutronDD0Lin;
- TH1F *neutronDD7_5;
+ TH1F *neutronDD5;
+ TH1F *neutronDD5Lin;
+  TH1F *neutronDD7_5;
  TH1F *neutronDD7_5Lin;
  TH1F *neutronDD10;
  TH1F *neutronDD10Lin;
@@ -87,6 +89,40 @@ public :
  TH1F *protonMomentumDD20Lin;
  TH1F *protonMomentumDD25Lin;
  TH1F *protonMomentumDD30Lin;
+
+ TH1F *he3EnergyDD30;
+ TH1F *he3EnergyDD30Lin;
+ TH1F *he3EnergyDD45;
+ TH1F *he3EnergyDD45Lin;
+ TH1F *he3EnergyDD75;
+ TH1F *he3EnergyDD75Lin;
+ TH1F *he3EnergyDD105;
+ TH1F *he3EnergyDD105Lin;
+ TH1F *alphaEnergyDD30;
+ TH1F *alphaEnergyDD30Lin;
+ TH1F *alphaEnergyDD45;
+ TH1F *alphaEnergyDD45Lin;
+ TH1F *alphaEnergyDD75;
+ TH1F *alphaEnergyDD75Lin;
+ TH1F *alphaEnergyDD105;
+ TH1F *alphaEnergyDD105Lin;
+ TH1F *deuteronEnergyDD30;
+ TH1F *deuteronEnergyDD30Lin;
+ TH1F *deuteronEnergyDD45;
+ TH1F *deuteronEnergyDD45Lin;
+ TH1F *deuteronEnergyDD75;
+ TH1F *deuteronEnergyDD75Lin;
+ TH1F *deuteronEnergyDD105;
+ TH1F *deuteronEnergyDD105Lin;
+ TH1F *tritonEnergyDD30;
+ TH1F *tritonEnergyDD30Lin;
+ TH1F *tritonEnergyDD45;
+ TH1F *tritonEnergyDD45Lin;
+ TH1F *tritonEnergyDD75;
+ TH1F *tritonEnergyDD75Lin;
+ TH1F *tritonEnergyDD105;
+ TH1F *tritonEnergyDD105Lin;
+
 
  Float_t minE, maxE;
  Float_t DDLinBinWidth;

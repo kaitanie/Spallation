@@ -286,7 +286,7 @@ int main(int argc, char** argv)
       } else if(line == "#ion") {
         ionParticle= true;
 	namePart="GenericIon";
-        (*fin) >> ionA >> ionZ;
+        (*fin) >> ionZ >> ionA;
       } else if(line == "#energy(MeV)") {
         (*fin) >> energy;
         energy *= MeV;
@@ -448,6 +448,7 @@ int main(int argc, char** argv)
     if (!ionParticle) {
       part = (G4ParticleTable::GetParticleTable())->FindParticle(namePart);
     } else {
+	G4cout <<"Trying to find ion: Z = " << ionZ << " A = " << ionA << G4endl;
       part = (G4ParticleTable::GetParticleTable())->GetIon(ionZ, ionA, 0.);
     }
     if (! part ) {

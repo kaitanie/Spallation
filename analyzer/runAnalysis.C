@@ -47,4 +47,15 @@ data->Process(carbonAnalyzer, "resultsPrecoFermi.root");
 
 //data = (TTree *) f4->Get("data");
 //data->Process(carbonAnalyzer, "resultsPreco.root");
+
+// Higher statistics
+carbonAnalyzer->SetNumberOfEvents(1000000); // one million
+TFile *f01M = new TFile("../runs/inclCarbonProton1GeV1Mevents.root");
+data = (TTree *) f01M->Get("data");
+data->Process(carbonAnalyzer, "resultsInclAblaWithFermi1M.root");
+
+TFile *f11M = new TFile("../runs/bertiniCarbonProton1GeV1Mevents.root");
+data = (TTree *) f11M->Get("data");
+data->Process(carbonAnalyzer, "resultsBertini1M.root");
 }
+

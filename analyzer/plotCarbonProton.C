@@ -1,9 +1,9 @@
 void plotCarbon() {
   Bool_t compareStopping = false;
   Bool_t plotPrecoFermi = false;
-  TFile *f0 = new TFile("resultsInclAblaWithFermi.root");
+  TFile *f0 = new TFile("resultsInclAblaWithFermi1M.root");
   TFile *f1 = new TFile("resultsInclAbla.root");
-  TFile *f2 = new TFile("resultsBertini.root");
+  TFile *f2 = new TFile("resultsBertini1M.root");
   if(plotPrecoFermi) {
     TFile *f4 = new TFile("resultsPrecoFermi.root");
   }
