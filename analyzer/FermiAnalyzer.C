@@ -130,7 +130,11 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    neutronDD10Lin = new TH1F("neutronDD10Lin", "Angle 10 deg", 99, 0.0, emax);
    neutronDD11 = new TH1F("neutronDD11", "Angle 11 deg", 99, xbins);
    neutronDD11Lin = new TH1F("neutronDD11Lin", "Angle 11 deg", 99, 0.0, emax);
-   neutronDD25 = new TH1F("neutronDD25", "Angle 25 deg", 99, xbins);
+   neutronDD20 = histoFactory->create1DLogx("neutronDD20", "Angle 20 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD20Lin = histoFactory->create1D("neutronDD20Lin", "Angle 20 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+    neutronDD25 = new TH1F("neutronDD25", "Angle 25 deg", 99, xbins);
    neutronDD25Lin = new TH1F("neutronDD25Lin", "Angle 25 deg", 99, 0.0, emax);
    neutronDD30 = new TH1F("neutronDD30", "Angle 30 deg", 99, xbins);
    neutronDD30Lin = new TH1F("neutronDD30Lin", "Angle 30 deg", 99, 0.0, emax);
@@ -328,6 +332,12 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 11.0, dTheta);
       neutronDD11->Fill(kinE, weight);
       neutronDD11Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (20.0 - dTheta) && theta < (20.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 20.0, dTheta);
+      neutronDD20->Fill(kinE, weight);
+      neutronDD20Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
     if(theta > (25.0 - dTheta) && theta < (25.0 + dTheta)) {
@@ -571,6 +581,7 @@ void FermiAnalyzer::Terminate()
   neutronDD7_5->Multiply(neutronDD7_5, ddHistBinWidths, 1.0, 1.0);
   neutronDD10->Multiply(neutronDD10, ddHistBinWidths, 1.0, 1.0);
   neutronDD11->Multiply(neutronDD11, ddHistBinWidths, 1.0, 1.0);
+  neutronDD20->Multiply(neutronDD20, ddHistBinWidths, 1.0, 1.0);
   neutronDD25->Multiply(neutronDD25, ddHistBinWidths, 1.0, 1.0);
   neutronDD30->Multiply(neutronDD30, ddHistBinWidths, 1.0, 1.0);
   neutronDD50->Multiply(neutronDD50, ddHistBinWidths, 1.0, 1.0);
