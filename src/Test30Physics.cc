@@ -74,6 +74,7 @@
 #include "G4BinaryCascade.hh"
 #include "G4BinaryLightIonReaction.hh"
 #include "G4CascadeInterface.hh"
+#include "G4InclCascadeInterface.hh"
 #include "G4InclAblaCascadeInterface.hh"
 #include "G4InclAblaLightIonInterface.hh"
 #include "G4WilsonAbrasionModel.hh"
@@ -294,6 +295,12 @@ G4VProcess* Test30Physics::GetProcess(const G4String& gen_name,
 
   } else if(gen_name == "bertini") {
     G4CascadeInterface* hkm = new G4CascadeInterface();
+    sg = new Test30VSecondaryGenerator(hkm, mat);
+    theProcess->SetSecondaryGenerator(sg);
+    man->AddDiscreteProcess(theProcess);
+
+  } else if(gen_name == "incl_only") {
+    G4InclCascadeInterface* hkm = new G4InclCascadeInterface();
     sg = new Test30VSecondaryGenerator(hkm, mat);
     theProcess->SetSecondaryGenerator(sg);
     man->AddDiscreteProcess(theProcess);
