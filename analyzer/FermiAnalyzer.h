@@ -55,6 +55,8 @@ public :
  TH1F *neutronDD10Lin;
  TH1F *neutronDD11;
  TH1F *neutronDD11Lin;
+ TH1F *neutronDD20;
+ TH1F *neutronDD20Lin;
  TH1F *neutronDD25;
  TH1F *neutronDD25Lin;
  TH1F *neutronDD30;
