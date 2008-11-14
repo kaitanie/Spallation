@@ -13,7 +13,11 @@ analyzer->SetMaximumEnergy(540.0);
 
 TTree *data = NULL;
 TFile *f0 = new TFile("../alpha_al_135/incl.root");
+TFile *f1 = new TFile("../alpha_al_135/bic.root");
 
 data = (TTree *) f0->Get("data");
 data->Process(analyzer, "resultsAlphaOnAlInclAbla.root");
+
+data = (TTree *) f1->Get("data");
+data->Process(analyzer, "resultsAlphaOnAlBIC.root");
 }
