@@ -570,14 +570,7 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
 
 Float_t FermiAnalyzer::GetDoubleDifferentialWeight(Float_t crossSection, Int_t numberOfEvents, Float_t theta, Float_t dTheta)
 {
-  Float_t weight = 0.0;
-  if((theta - dTheta) > 0.0) {
-    weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(0.0)) - TMath::Cos(TMath::DegToRad()*(theta + dTheta))));
-  } else if ((theta + dTheta) > 180.0) {
-    weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(theta - dTheta)) - TMath::Cos(TMath::DegToRad()*(180.0))));
-  } else {
-    weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(theta - dTheta)) - TMath::Cos(TMath::DegToRad()*(theta + dTheta))));
-  }
+  Float_t weight = crossSection/(numberOfEvents * 2.0*TMath::Pi()*(TMath::Cos(TMath::DegToRad()*(theta - dTheta)) - TMath::Cos(TMath::DegToRad()*(theta + dTheta))));
 
   if(weight <= 0.0) { // Weight of 0 or less is probably not a good sign!
     cout <<"Analyzer: (File " << __FILE__ << " line " << __LINE__ << ") WARNING! weight = " << weight << endl;
