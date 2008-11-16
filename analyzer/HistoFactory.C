@@ -13,6 +13,11 @@ HistoFactory::~HistoFactory()
 
 }
 
+void HistoFactory::setGlobalHistoColor(Int_t color)
+{
+  theGlobalHistoColor = color;
+}
+
 void HistoFactory::setStyle(TH1F *histogram, TString xlabel, TString ylabel)
 {
   histogram->GetXaxis()->SetTitle(xlabel);
