@@ -9,7 +9,7 @@ cout <<"Analyze a data tree: data->Process(\"FermiAnalyzer\", \"outputFile.root\
 FermiAnalyzer *carbonAnalyzer = new FermiAnalyzer();
 carbonAnalyzer->SetNumberOfEvents(100000);
 carbonAnalyzer->SetCrossSection(9.799672e+02);
-carbonAnalyzer->SetMaximumEnergy(1000.0);
+carbonAnalyzer->SetMaximumEnergy(290.0);
 
 TTree *data = NULL;
 TFile *f0 = new TFile("../c_c_290/inclion.root");
