@@ -14,5 +14,5 @@ while(1) {
 
 file.close();
 gStyle->SetMarkerStyle(2);
-g1->Draw("aP");
+g1->Draw("aP*");
 }
