@@ -22,8 +22,8 @@ endif
 include $(G4INSTALL)/config/architecture.gmk
 
 ifdef G4ANALYSIS_USE_ROOT
-  CPPFLAGS += $(shell $(ROOTSYS)/bin/root-config --cflags)
-  LDFLAGS  += $(shell $(ROOTSYS)/bin/root-config --glibs)
+  CPPFLAGS += $(shell root-config --cflags)
+  LDFLAGS  += $(shell root-config --glibs)
 else
   CPPFLAGS += $(shell root-config --cflags)
   LDFLAGS  += $(shell root-config --glibs)
