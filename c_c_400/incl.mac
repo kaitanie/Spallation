@@ -15,7 +15,7 @@
 #material
 Pb
 #energy(MeV)
-4800.
+1620.
 // 12 * 290 MeV
 #sigmae(MeV)
 0.5
@@ -30,7 +30,7 @@ Pb
 #nangle
 7
 #angles
-5. 10. 20. 30. 40. 60. 80.
+0. 5. 15. 30. 50. 80. 110.
 #dangle
 2.
 //--------
