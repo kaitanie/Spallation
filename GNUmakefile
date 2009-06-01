@@ -15,6 +15,10 @@ endif
 
 all: lib bin
 
+ifdef AHSYTEM
+  CPPFLAGS += -pg -q
+endif
+
 ifdef G4ANALYSIS_USE_ROOT
   CPPFLAGS += -DG4ANALYSIS_USE_ROOT
 endif
@@ -22,7 +26,7 @@ endif
 include $(G4INSTALL)/config/architecture.gmk
 
 ifdef G4ANALYSIS_USE_ROOT
-  CPPFLAGS += $(shell root-config --cflags)
+  CPPFLAGS += $(shell root-config --cflags) 
   LDFLAGS  += $(shell root-config --glibs)
 else
   CPPFLAGS += $(shell root-config --cflags)

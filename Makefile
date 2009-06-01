@@ -29,4 +29,20 @@ getPK:
 	git fetch pekka
 	git merge pekka/master
 
+run:
+	$(G4INSTALL)/bin/$(G4SYSTEM)/test30
 
+clean:
+	rm *.root *.profile
+
+runFission:
+	$(G4INSTALL)/bin/$(G4SYSTEM)/test30 runs/uFission.mac
+
+debug:
+	@echo '::: entering gdb. (gdb) help/run/quit'
+	gdb $(G4INSTALL)/bin/$(G4SYSTEM)/test30
+
+profile:
+	@echo '::: profiling'
+	gprof $(G4INSTALL)/bin/$(G4SYSTEM)/test30 > test30.profile
+	gprof -b $(G4INSTALL)/bin/$(G4SYSTEM)/test30 | more
