@@ -13,9 +13,9 @@
 6 12
 //--------
 #material
-Pb
+C
 #energy(MeV)
-1620.
+4800.
 // 12 * 290 MeV
 #sigmae(MeV)
 0.5
