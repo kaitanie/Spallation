@@ -120,6 +120,10 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
 
    neutronDD0 = new TH1F("neutronDD0", "Angle 0 deg", 99, xbins);
    neutronDD0Lin = new TH1F("neutronDD0Lin", "Angle 0 deg", 99, 0.0, emax);
+   neutronDD2 = histoFactory->create1DLogx("neutronDD2", "Angle 2 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD2Lin = histoFactory->create1D("neutronDD2Lin", "Angle 2 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
    neutronDD5 = histoFactory->create1DLogx("neutronDD5", "Angle 5 deg", "Neutron energy (MeV)", "#sigma (mb)",
                                            99, 1.0, emax);
    neutronDD5Lin = histoFactory->create1D("neutronDD5Lin", "Angle 5 deg", "Neutron energy (MeV)", "#sigma (mb)",
@@ -128,6 +132,8 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    neutronDD7_5Lin = new TH1F("neutronDD7_5Lin", "Angle 7.5 deg", 99, 0.0, emax);
    neutronDD10 = new TH1F("neutronDD10", "Angle 10 deg", 99, xbins);
    neutronDD10Lin = new TH1F("neutronDD10Lin", "Angle 10 deg", 99, 0.0, emax);
+   neutronDD10_5 = new TH1F("neutronDD10_5", "Angle 10.5 deg", 99, xbins);
+   neutronDD10_5Lin = new TH1F("neutronDD10_5Lin", "Angle 10.5 deg", 99, 0.0, emax);
    neutronDD11 = new TH1F("neutronDD11", "Angle 11 deg", 99, xbins);
    neutronDD11Lin = new TH1F("neutronDD11Lin", "Angle 11 deg", 99, 0.0, emax);
    neutronDD15 = histoFactory->create1DLogx("neutronDD15", "Angle 15 deg", "Neutron energy (MeV)", "#sigma (mb)",
@@ -138,20 +144,62 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
                                            99, 1.0, emax);
    neutronDD20Lin = histoFactory->create1D("neutronDD20Lin", "Angle 20 deg", "Neutron energy (MeV)", "#sigma (mb)",
                                           99, 0.0, emax);
-    neutronDD25 = new TH1F("neutronDD25", "Angle 25 deg", 99, xbins);
+   neutronDD24_5 = histoFactory->create1DLogx("neutronDD24_5", "Angle 24.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD24_5Lin = histoFactory->create1D("neutronDD24_5Lin", "Angle 24.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD25 = new TH1F("neutronDD25", "Angle 25 deg", 99, xbins);
    neutronDD25Lin = new TH1F("neutronDD25Lin", "Angle 25 deg", 99, 0.0, emax);
    neutronDD30 = new TH1F("neutronDD30", "Angle 30 deg", 99, xbins);
    neutronDD30Lin = new TH1F("neutronDD30Lin", "Angle 30 deg", 99, 0.0, emax);
+   neutronDD41 = histoFactory->create1DLogx("neutronDD41", "Angle 41 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD41Lin = histoFactory->create1D("neutronDD41Lin", "Angle 41 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
    neutronDD50 = new TH1F("neutronDD50", "Angle 50 deg", 99, xbins);
    neutronDD50Lin = new TH1F("neutronDD50Lin", "Angle 50 deg", 99, 0.0, emax);
+   neutronDD55 = histoFactory->create1DLogx("neutronDD55", "Angle 55 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD55Lin = histoFactory->create1D("neutronDD55Lin", "Angle 55 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD71_5 = histoFactory->create1DLogx("neutronDD71_5", "Angle 71.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD71_5Lin = histoFactory->create1D("neutronDD71_5Lin", "Angle 71.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
    neutronDD80 = histoFactory->create1DLogx("neutronDD80", "Angle 80 deg", "Neutron energy (MeV)", "#sigma (mb)",
                                            99, 1.0, emax);
    neutronDD80Lin = histoFactory->create1D("neutronDD80Lin", "Angle 80 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD83_5 = histoFactory->create1DLogx("neutronDD83_5", "Angle 83.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD83_5Lin = histoFactory->create1D("neutronDD83_5Lin", "Angle 83.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD99 = histoFactory->create1DLogx("neutronDD99", "Angle 99 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD99Lin = histoFactory->create1D("neutronDD99Lin", "Angle 99 deg", "Neutron energy (MeV)", "#sigma (mb)",
                                           99, 0.0, emax);
    neutronDD110 = histoFactory->create1DLogx("neutronDD110", "Angle 110 deg", "Neutron energy (MeV)", "#sigma (mb)",
                                            99, 1.0, emax);
    neutronDD110Lin = histoFactory->create1D("neutronDD110Lin", "Angle 110 deg", "Neutron energy (MeV)", "#sigma (mb)",
                                           99, 0.0, emax);
+   neutronDD114 = histoFactory->create1DLogx("neutronDD114", "Angle 114 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD114Lin = histoFactory->create1D("neutronDD114Lin", "Angle 114 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD128_5 = histoFactory->create1DLogx("neutronDD128_5", "Angle 128.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD128_5Lin = histoFactory->create1D("neutronDD128_5Lin", "Angle 128.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD145 = histoFactory->create1DLogx("neutronDD145", "Angle 145 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD145Lin = histoFactory->create1D("neutronDD145Lin", "Angle 145 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                          99, 0.0, emax);
+   neutronDD155_5 = histoFactory->create1DLogx("neutronDD155_5", "Angle 155.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   neutronDD155_5Lin = histoFactory->create1D("neutronDD155_5Lin", "Angle 155.5 deg", "Neutron energy (MeV)",
+					      "#sigma (mb)",
+					      99, 0.0, emax);
+
 
    protonEnergyIntegratedLogx = new TH1F("protonEnergyIntegratedLogx", "Integrated proton energies", 99, xbins);
 //   neutronEnergyIntegratedLogx = new TH1F("neutronEnergyIntegratedLogx", "Integrated neutron energies", 99, xbins);
@@ -322,6 +370,12 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       neutronDD0Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
+    if(theta > (2.0 - dTheta) && theta < (2.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 2.0, dTheta);
+      neutronDD2->Fill(kinE, weight);
+      neutronDD2Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
     if(theta > (5.0 - dTheta) && theta < (5.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 5.0, dTheta);
       neutronDD5->Fill(kinE, weight);
@@ -338,6 +392,12 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 10.0, dTheta);
       neutronDD10->Fill(kinE, weight);
       neutronDD10Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (10.5 - dTheta) && theta < (10.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 10.5, dTheta);
+      neutronDD10_5->Fill(kinE, weight);
+      neutronDD10_5Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
     if(theta > (11.0 - dTheta) && theta < (11.0 + dTheta)) {
@@ -358,6 +418,12 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       neutronDD20Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
+    if(theta > (24.5 - dTheta) && theta < (24.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 24.5, dTheta);
+      neutronDD24_5->Fill(kinE, weight);
+      neutronDD24_5Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
     if(theta > (25.0 - dTheta) && theta < (25.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 25.0, dTheta);
       neutronDD25->Fill(kinE, weight);
@@ -370,10 +436,28 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       neutronDD30Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
+    if(theta > (41.0 - dTheta) && theta < (41.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 41.0, dTheta);
+      neutronDD41->Fill(kinE, weight);
+      neutronDD41Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
     if(theta > (50.0 - dTheta) && theta < (50.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 50.0, dTheta);
       neutronDD50->Fill(kinE, weight);
       neutronDD50Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (55.0 - dTheta) && theta < (55.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 55.0, dTheta);
+      neutronDD55->Fill(kinE, weight);
+      neutronDD55Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (71.5 - dTheta) && theta < (71.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 71.5, dTheta);
+      neutronDD71_5->Fill(kinE, weight);
+      neutronDD71_5Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
     if(theta > (80.0 - dTheta) && theta < (80.0 + dTheta)) {
@@ -382,10 +466,46 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       neutronDD80Lin->Fill(kinE, weight/DDLinBinWidth);
     }
 
+    if(theta > (83.5 - dTheta) && theta < (83.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 83.5, dTheta);
+      neutronDD83_5->Fill(kinE, weight);
+      neutronDD83_5Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (99.0 - dTheta) && theta < (99.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 99.0, dTheta);
+      neutronDD99->Fill(kinE, weight);
+      neutronDD99Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
     if(theta > (110.0 - dTheta) && theta < (110.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 110.0, dTheta);
       neutronDD110->Fill(kinE, weight);
       neutronDD110Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (114.0 - dTheta) && theta < (114.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 114.0, dTheta);
+      neutronDD114->Fill(kinE, weight);
+      neutronDD114Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (128.5 - dTheta) && theta < (128.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 128.5, dTheta);
+      neutronDD128_5->Fill(kinE, weight);
+      neutronDD128_5Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (145.0 - dTheta) && theta < (145.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 145.0, dTheta);
+      neutronDD145->Fill(kinE, weight);
+      neutronDD145Lin->Fill(kinE, weight/DDLinBinWidth);
+    }
+
+    if(theta > (155.5 - dTheta) && theta < (155.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 155.5, dTheta);
+      neutronDD155_5->Fill(kinE, weight);
+      neutronDD155_5Lin->Fill(kinE, weight/DDLinBinWidth);
     }
   }
   if(A == 1 && Z == 1) {
@@ -600,17 +720,29 @@ void FermiAnalyzer::Terminate()
   neutronEnergyIntegratedLogx->Multiply(neutronEnergyIntegratedLogx, ddHistBinWidths, 1.0, 1.0);
   protonEnergyIntegratedLogx->Multiply(protonEnergyIntegratedLogx, ddHistBinWidths, 1.0, 1.0);
   neutronDD0->Multiply(neutronDD0, ddHistBinWidths, 1.0, 1.0);
+  neutronDD2->Multiply(neutronDD2, ddHistBinWidths, 1.0, 1.0);
   neutronDD5->Multiply(neutronDD5, ddHistBinWidths, 1.0, 1.0);
   neutronDD7_5->Multiply(neutronDD7_5, ddHistBinWidths, 1.0, 1.0);
   neutronDD10->Multiply(neutronDD10, ddHistBinWidths, 1.0, 1.0);
+  neutronDD10_5->Multiply(neutronDD10_5, ddHistBinWidths, 1.0, 1.0);
   neutronDD11->Multiply(neutronDD11, ddHistBinWidths, 1.0, 1.0);
   neutronDD15->Multiply(neutronDD15, ddHistBinWidths, 1.0, 1.0);
   neutronDD20->Multiply(neutronDD20, ddHistBinWidths, 1.0, 1.0);
+  neutronDD24_5->Multiply(neutronDD24_5, ddHistBinWidths, 1.0, 1.0);
   neutronDD25->Multiply(neutronDD25, ddHistBinWidths, 1.0, 1.0);
   neutronDD30->Multiply(neutronDD30, ddHistBinWidths, 1.0, 1.0);
+  neutronDD41->Multiply(neutronDD41, ddHistBinWidths, 1.0, 1.0);
   neutronDD50->Multiply(neutronDD50, ddHistBinWidths, 1.0, 1.0);
+  neutronDD55->Multiply(neutronDD55, ddHistBinWidths, 1.0, 1.0);
+  neutronDD71_5->Multiply(neutronDD71_5, ddHistBinWidths, 1.0, 1.0);
   neutronDD80->Multiply(neutronDD80, ddHistBinWidths, 1.0, 1.0);
+  neutronDD83_5->Multiply(neutronDD83_5, ddHistBinWidths, 1.0, 1.0);
+  neutronDD99->Multiply(neutronDD99, ddHistBinWidths, 1.0, 1.0);
   neutronDD110->Multiply(neutronDD110, ddHistBinWidths, 1.0, 1.0);
+  neutronDD114->Multiply(neutronDD114, ddHistBinWidths, 1.0, 1.0);
+  neutronDD128_5->Multiply(neutronDD128_5, ddHistBinWidths, 1.0, 1.0);
+  neutronDD145->Multiply(neutronDD145, ddHistBinWidths, 1.0, 1.0);
+  neutronDD155_5->Multiply(neutronDD155_5, ddHistBinWidths, 1.0, 1.0);
 
   protonDD11->Multiply(protonDD11, ddHistBinWidths, 1.0, 1.0);
   protonDD13->Multiply(protonDD13, ddHistBinWidths, 1.0, 1.0);

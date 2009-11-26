@@ -8,16 +8,17 @@ cout <<"Analyze a data tree: data->Process(\"FermiAnalyzer\", \"outputFile.root\
 // Prepare the analyzers:
 FermiAnalyzer *carbonAnalyzer = new FermiAnalyzer();
 carbonAnalyzer->SetNumberOfEvents(100000);
-carbonAnalyzer->SetCrossSection(9.799672e+02);
-carbonAnalyzer->SetMaximumEnergy(290.0);
+carbonAnalyzer->SetCrossSection(8.696317e+02);
+//carbonAnalyzer->SetCrossSection(9.799672e+02);
+carbonAnalyzer->SetMaximumEnergy(1500.0);
 
 TTree *data = NULL;
-TFile *f0 = new TFile("../c_c_290/inclion.root");
-TFile *f1 = new TFile("../c_c_290/bic.root");
+TFile *f0 = new TFile("../c_c_400/inclion.root");
+TFile *f1 = new TFile("../c_c_400/bic.root");
 
 data = (TTree *) f0->Get("data");
-data->Process(carbonAnalyzer, "resultsInclIonCC_290MeV.root");
+data->Process(carbonAnalyzer, "resultsInclIonCC_400MeV.root");
 
 data = (TTree *) f1->Get("data");
-data->Process(carbonAnalyzer, "resultsBICIonCC_290MeV.root");
+data->Process(carbonAnalyzer, "resultsBICIonCC_400MeV.root");
 }
