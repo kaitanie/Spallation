@@ -886,9 +886,10 @@ int main(int argc, char** argv)
         e  = fm.e() - m;
 
         theta = mom.theta();
+	G4double phi = mom.phi();
         G4double cosTheta  = std::cos(theta);
         G4double thetad = theta/degree;
-
+	
         fm.boost(-bst);
         G4double costcm = std::cos(fm.theta());
 
@@ -910,13 +911,21 @@ int main(int argc, char** argv)
 	  rZ = -1;
 	} else {
 	  rA = pd->GetAtomicMass();
+	  if(rA == -1) G4cout <<"Warning: some other particle pretends to be a pion!" << G4endl;
 	  rZ = pd->GetAtomicNumber();
 	}
-	totE = fm.e() / MeV;
-	kinE = (fm.e() / MeV - pd->GetPDGMass() / MeV);
-	rmom = mom.mag() / MeV;
-       	rtheta = mom.theta() / degree;
-	rphi = mom.phi() / degree;
+	//	totE = fm.e() / MeV;
+	//	kinE = (fm.e() / MeV - pd->GetPDGMass() / MeV);
+	//	rmom = mom.mag() / MeV;
+	//       	rtheta = mom.theta() / degree;
+	//	rphi = mom.phi() / degree;
+
+	// In LAB:
+	totE = (e + m) / MeV;
+	kinE = e / MeV;
+	rmom = p;
+	rtheta = theta / degree;
+	rphi = phi / degree;
 	data->Fill();
 
 	if(usepaw) {
