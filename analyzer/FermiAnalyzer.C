@@ -83,7 +83,7 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
    chargenumbers->GetXaxis()->SetTitle("Charge number");
    chargenumbers->GetYaxis()->SetTitle("#sigma (mb)");
    chargenumbers->SetLineWidth(2);
-   totalChargeNumbers = histoFactory->create1D("totalChargeNumbers", "Total charge numbers", "Charge number", "#sigma (mb)", 14, 0.5, 14.5);
+   totalChargeNumbers = histoFactory->create1D("totalChargeNumbers", "Total charge numbers", "Charge number", "#sigma (mb)", 30, 0.5, 30.5);
    massnumbers = new TH1F("massnumbers", "Massnumber distribution", 14, 0.5, 14.5);
    massnumbers->GetXaxis()->SetTitle("Mass number");
    massnumbers->GetYaxis()->SetTitle("#sigma (mb)");
