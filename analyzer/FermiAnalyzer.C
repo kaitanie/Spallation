@@ -209,6 +209,10 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
 
 
 
+   protonDD2 = histoFactory->create1DLogx("protonDD2", "Angle 2 deg", "Proton energy (MeV)", "#sigma (mb)",
+                                           99, 1.0, emax);
+   protonDD10_5 = histoFactory->create1DLogx("protonDD10_5", "Angle 10.5 deg", "Neutron energy (MeV)", "#sigma (mb)",
+					     99, 1.0, emax);
    protonDD11 = new TH1F("protonDD11", "Angle 11 deg", 99, xbins);
    protonDD11Lin = new TH1F("protonDD11Lin", "Angle 11 deg", 99, 0.0, emax);
    protonDD13 = histoFactory->create1DLogx("protonDD13", "Angle 13 deg", "Proton energy (MeV)", "#sigma (mb)",
@@ -223,6 +227,8 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
 					  99, 1.0, emax);
    protonDD20Lin = histoFactory->create1D("protonDD20Lin", "Angle 20 deg", "Proton energy (MeV)", "#sigma (mb)",
 					  99, 0.0, emax);
+   protonDD24_5 = histoFactory->create1DLogx("protonDD24_5", "Angle 24.5 deg", "Proton energy (MeV)", "#sigma (mb)",
+					     99, 1.0, emax);
    protonDD25 = histoFactory->create1DLogx("protonDD25", "Angle 25 deg", "Proton energy (MeV)", "#sigma (mb)",
 					  99, 1.0, emax);
    protonDD25Lin = histoFactory->create1D("protonDD25Lin", "Angle 25 deg", "Proton energy (MeV)", "#sigma (mb)",
@@ -231,8 +237,26 @@ void FermiAnalyzer::Begin(TTree * /*tree*/)
 					  99, 1.0, emax);
    protonDD30Lin = histoFactory->create1D("protonDD30Lin", "Angle 30 deg", "Proton energy (MeV)", "#sigma (mb)",
 					  99, 0.0, emax);
+   protonDD41 = histoFactory->create1DLogx("protonDD41", "Angle 41 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
    protonDD50 = new TH1F("protonDD50", "Angle 50 deg", 99, xbins);
    protonDD50Lin = new TH1F("protonDD50Lin", "Angle 50 deg", 99, 0.0, emax);
+   protonDD55 = histoFactory->create1DLogx("protonDD55", "Angle 55 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD71_5 = histoFactory->create1DLogx("protonDD71_5", "Angle 71.5 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD83_5 = histoFactory->create1DLogx("protonDD83_5", "Angle 83.5 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD99 = histoFactory->create1DLogx("protonDD99", "Angle 99 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD114 = histoFactory->create1DLogx("protonDD114", "Angle 114 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD128_5 = histoFactory->create1DLogx("protonDD128_5", "Angle 128.5 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD145 = histoFactory->create1DLogx("protonDD145", "Angle 145 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
+   protonDD155_5 = histoFactory->create1DLogx("protonDD155_5", "Angle 155.5 deg", "Proton energy (MeV)", "#sigma (mb)",
+					   99, 1.0, emax);
 
    protonMomentumDD11 = histoFactory->create1DLogx("protonMomentumDD11", "Angle 11 deg", "Proton momentum (MeV/c)",
 						   "#sigma", 99, 1.0, pmax);
@@ -511,6 +535,16 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
   if(A == 1 && Z == 1) {
     protonEnergyIntegrated->Fill(kinE, GetWeight(crossSection, numberOfEvents));
     protonEnergyIntegratedLogx->Fill(kinE, GetWeight(crossSection, numberOfEvents));
+    if(theta > (2.0 - dTheta) && theta < (2.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 2.0, dTheta);
+      protonDD2->Fill(kinE, weight);
+    }
+
+    if(theta > (10.5 - dTheta) && theta < (10.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 10.5, dTheta);
+      protonDD10_5->Fill(kinE, weight);
+    }
+
     if(theta > (11.0 - dTheta) && theta < (11.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 11.0, dTheta);
       protonDD11->Fill(kinE, weight);
@@ -543,6 +577,11 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       protonMomentumDD20Lin->Fill(mom, weight);
     }
 
+    if(theta > (24.5 - dTheta) && theta < (24.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 24.5, dTheta);
+      protonDD24_5->Fill(kinE, weight);
+    }
+
     if(theta > (25.0 - dTheta) && theta < (25.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 25.0, dTheta);
       protonDD25->Fill(kinE, weight);
@@ -559,12 +598,58 @@ Bool_t FermiAnalyzer::Process(Long64_t entry)
       protonMomentumDD30Lin->Fill(mom, weight);
     }
 
+    if(theta > (41.0 - dTheta) && theta < (41.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 41.0, dTheta);
+      protonDD41->Fill(kinE, weight);
+    }
+
     if(theta > (50.0 - dTheta) && theta < (50.0 + dTheta)) {
       weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 50.0, dTheta);
       protonDD50->Fill(kinE, weight);
       protonMomentumDD30->Fill(mom, weight);
       protonDD50Lin->Fill(kinE, weight/DDLinBinWidth);
     }
+
+    if(theta > (55.0 - dTheta) && theta < (55.0 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 55.0, dTheta);
+      protonDD55->Fill(kinE, weight);
+    }
+
+    if(theta > (71.5 - dTheta) && theta < (71.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 71.5, dTheta);
+      protonDD71_5->Fill(kinE, weight);
+    }
+
+    if(theta > (83.5 - dTheta) && theta < (83.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 83.5, dTheta);
+      protonDD83_5->Fill(kinE, weight);
+    }
+
+    if(theta > (99 - dTheta) && theta < (99 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 99.0, dTheta);
+      protonDD99->Fill(kinE, weight);
+    }
+
+    if(theta > (114 - dTheta) && theta < (114 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 114.0, dTheta);
+      protonDD114->Fill(kinE, weight);
+    }
+
+    if(theta > (128.5 - dTheta) && theta < (128.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 128.5, dTheta);
+      protonDD128_5->Fill(kinE, weight);
+    }
+
+    if(theta > (145 - dTheta) && theta < (145 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 145.0, dTheta);
+      protonDD145->Fill(kinE, weight);
+    }
+
+    if(theta > (155.5 - dTheta) && theta < (155.5 + dTheta)) {
+      weight = GetDoubleDifferentialWeight(crossSection, numberOfEvents, 155.5, dTheta);
+      protonDD155_5->Fill(kinE, weight);
+    }
+
   }
   //massnumbers->Fill(A);
   totalMassNumbers->Fill(A, GetWeight(crossSection, numberOfEvents));
@@ -744,13 +829,25 @@ void FermiAnalyzer::Terminate()
   neutronDD145->Multiply(neutronDD145, ddHistBinWidths, 1.0, 1.0);
   neutronDD155_5->Multiply(neutronDD155_5, ddHistBinWidths, 1.0, 1.0);
 
+  protonDD2->Multiply(protonDD2, ddHistBinWidths, 1.0, 1.0);
+  protonDD10_5->Multiply(protonDD10_5, ddHistBinWidths, 1.0, 1.0);
   protonDD11->Multiply(protonDD11, ddHistBinWidths, 1.0, 1.0);
   protonDD13->Multiply(protonDD13, ddHistBinWidths, 1.0, 1.0);
   protonDD15->Multiply(protonDD15, ddHistBinWidths, 1.0, 1.0);
   protonDD20->Multiply(protonDD20, ddHistBinWidths, 1.0, 1.0);
+  protonDD24_5->Multiply(protonDD24_5, ddHistBinWidths, 1.0, 1.0);
   protonDD25->Multiply(protonDD25, ddHistBinWidths, 1.0, 1.0);
   protonDD30->Multiply(protonDD30, ddHistBinWidths, 1.0, 1.0);
+  protonDD41->Multiply(protonDD41, ddHistBinWidths, 1.0, 1.0);
   protonDD50->Multiply(protonDD50, ddHistBinWidths, 1.0, 1.0);
+  protonDD55->Multiply(protonDD55, ddHistBinWidths, 1.0, 1.0);
+  protonDD71_5->Multiply(protonDD71_5, ddHistBinWidths, 1.0, 1.0);
+  protonDD83_5->Multiply(protonDD83_5, ddHistBinWidths, 1.0, 1.0);
+  protonDD99->Multiply(protonDD99, ddHistBinWidths, 1.0, 1.0);
+  protonDD114->Multiply(protonDD114, ddHistBinWidths, 1.0, 1.0);
+  protonDD128_5->Multiply(protonDD128_5, ddHistBinWidths, 1.0, 1.0);
+  protonDD145->Multiply(protonDD145, ddHistBinWidths, 1.0, 1.0);
+  protonDD155_5->Multiply(protonDD155_5, ddHistBinWidths, 1.0, 1.0);
 
   protonMomentumDD11->Multiply(protonMomentumDD11, ddPHistBinWidths, 1.0, 1.0);
   protonMomentumDD13->Multiply(protonMomentumDD13, ddPHistBinWidths, 1.0, 1.0);

@@ -94,6 +94,8 @@ public :
  TH1F *neutronDD155_5;
  TH1F *neutronDD155_5Lin;
 
+ TH1F *protonDD2;
+ TH1F *protonDD10_5;
  TH1F *protonDD11;
  TH1F *protonDD11Lin;
  TH1F *protonDD13;
@@ -102,12 +104,22 @@ public :
  TH1F *protonDD15Lin;
  TH1F *protonDD20;
  TH1F *protonDD20Lin;
+ TH1F *protonDD24_5;
  TH1F *protonDD25;
  TH1F *protonDD25Lin;
  TH1F *protonDD30;
  TH1F *protonDD30Lin;
+ TH1F *protonDD41;
  TH1F *protonDD50;
  TH1F *protonDD50Lin;
+ TH1F *protonDD55;
+ TH1F *protonDD71_5;
+ TH1F *protonDD83_5;
+ TH1F *protonDD99;
+ TH1F *protonDD114;
+ TH1F *protonDD128_5;
+ TH1F *protonDD145;
+ TH1F *protonDD155_5;
 
  TH1F *protonMomentumDD11;
  TH1F *protonMomentumDD13;
