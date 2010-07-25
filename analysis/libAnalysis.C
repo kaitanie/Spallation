@@ -83,6 +83,17 @@ public:
 			 Form("Histogram %i", histoID), // Create title "Histogram number"
 			 nbins, xmin, xmax, logX);
   };
+
+  // Convenience method: no need to always explicitly give a name and
+  // a title to the histogram.  This method uses the automatic histoID
+  // variable (a long integer that is always incremented when a
+  // histogram is created).
+  // This method includes data producer in the histogram title and name.
+  TH1D* createHisto1D(char *producer, Int_t nbins, Double_t xmin, Double_t xmax, Bool_t logX = false) {
+    return createHisto1D(Form("%s_histo_%i", producer, histoID), // Create name histo_number where number is 0, 1, 2, etc.
+			 Form("%s Histogram %i", producer, histoID), // Create title "Histogram number"
+			 nbins, xmin, xmax, logX);
+  };
 };
 
 TCut proton() {
@@ -112,10 +123,12 @@ enum Normalization {NoNormalization, CrossSectionNormalization, EventNormalizati
 // analysis->fillAndNormalize("energy", true, "A==1&&Z==0&&theta>5.0&&theta<7.0")->Draw();
 class CalculationAnalysis {
 public:
-  CalculationAnalysis(HistoFactory *aHistoFactory, char *calculationFileName,
+  CalculationAnalysis(HistoFactory *aHistoFactory, char *aDataProducer,
+		      char *calculationFileName,
 		      char *ntupleName,
 		      Double_t crossSect, Long_t events) {
     histoFactory = aHistoFactory;
+    dataProducer = aDataProducer;
     calculationFile = new TFile(calculationFileName);
     calculationTree = (TTree *) calculationFile->Get(ntupleName);
     crossSection = crossSect;
@@ -131,7 +144,8 @@ public:
   TH1D* fillHisto(TString variable, Double_t nbins,
 		  Double_t xmin, Double_t xmax, Bool_t logX = false,
 		  TCut cut = "", TString options = "") {
-    TH1D *histo = histoFactory->createHisto1D(nbins, xmin, xmax, logX);
+    TH1D *histo = histoFactory->createHisto1D(dataProducer, nbins, xmin, xmax, logX);
+    cout <<"Filling histo: " << histo->GetName() << endl;
     if(histo != 0) {
       calculationTree->Project(histo->GetName(), // This is why histo names MUST be unique!!!
 			       variable, cut, options);
@@ -171,12 +185,12 @@ public:
     if(normalizationMethod == CrossSectionNormalization) {
       //      normalization = (crossSection / (2.0 * numberOfEvents * TMath::Pi())) / angleTerm;
       normalization = crossSection / (2.0 * numberOfEvents * TMath::Pi() * angleTerm);
-      result->SetTitle(Form("Neutron double-differential cross-section for angle %.1f", theta));
+      result->SetTitle(Form("Neutron double-differential cross-section for angle %.1f (%s)", theta, dataProducer));
       result->GetXaxis()->SetTitle("Neutron energy [MeV]");
       result->GetYaxis()->SetTitle("#frac{d #sigma}{dE d #theta} [mb/(sr MeV)]");
     } else if(normalizationMethod == EventNormalization) {
       normalization = 1.0/(1000.0*2.0 * TMath::Pi() * numberOfEvents)/angleTerm;
-      result->SetTitle(Form("Neutron double-differential cross-section for angle %.1f", theta));
+      result->SetTitle(Form("Neutron double-differential cross-section for angle %.1f (%s)", theta, dataProducer));
       result->GetXaxis()->SetTitle("Neutron energy [MeV]");
       result->GetYaxis()->SetTitle("N/N0 [1/(msr MeV)]");
     }
@@ -236,6 +250,7 @@ public:
 
 private:
   HistoFactory *histoFactory;
+  char *dataProducer;
   TFile *calculationFile;
   TTree *calculationTree;
   Double_t crossSection;
