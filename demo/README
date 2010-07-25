@@ -1,0 +1,20 @@
+Demo run:
+
+Demo using QMD to calculate Ne-20 + Al @ 5 MeV/nucleon.
+
+Output data is stored into demo.root
+
+
+How to run:
+1. Activate the ROOT analysis by setting the environment variable G4ANALYSIS_USE_ROOT to 1
+   (e.g. export G4ANALYSIS_USE_ROOT=1 in bash or
+         setenv G4ANALYSIS_USE_ROOT 1 in c-shell)
+2. Recompile the application:
+   (go to the main directory of the program)
+   make clean
+   make
+3. Run the simulation:
+   test30 demo.mac
+4. Look at the output:
+   root -l demo.root
+
