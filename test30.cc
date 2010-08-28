@@ -107,9 +107,16 @@
 #include "Histo.hh"
 #include "G4Timer.hh"
 
+#ifdef G4ANALYSIS_USE_ROOT
 #include "Riostream.h"
 #include "TFile.h"
 #include "TTree.h"
+#endif
+
+#ifdef G4ANALYSIS_USE
+#include "AIDA/AIDA.h"
+using namespace AIDA;
+#endif
 
 int main(int argc, char** argv)
 {
@@ -405,10 +412,11 @@ int main(int argc, char** argv)
 
     if(!end) break;
 
+    float kinE, totE, rmom, rtheta, rphi;
+    int rA, rZ;
+#ifdef G4ANALYSIS_USE_ROOT
     TFile *outputFile = new TFile(hFile, "RECREATE");
     TTree *data = new TTree("data", "Data from test30");
-    Float_t kinE, totE, rmom, rtheta, rphi;
-    Int_t rA, rZ;
     data->Branch("A", &rA, "A/I");
     data->Branch("Z", &rZ, "Z/I");
     data->Branch("totE", &totE, "totE/F");
@@ -416,7 +424,32 @@ int main(int argc, char** argv)
     data->Branch("mom", &rmom, "mom/F");
     data->Branch("theta", &rtheta, "theta/F");
     data->Branch("phi", &rphi, "phi/F");
+#endif
+#ifdef G4ANALYSIS_USE
+    std::vector<std::string> columnNames;
+    columnNames.push_back("A");
+    columnNames.push_back("Z");
+    columnNames.push_back("kinE");
+    columnNames.push_back("mom");
+    columnNames.push_back("theta");
+    columnNames.push_back("phi");
 
+    std::vector<std::string> columnClasses;
+    columnClasses.push_back("int");
+    columnClasses.push_back("int");
+    columnClasses.push_back("float");
+    columnClasses.push_back("float");
+    columnClasses.push_back("float");
+    columnClasses.push_back("float");
+    
+    IAnalysisFactory *analysisFact = AIDA_createAnalysisFactory();
+    ITreeFactory *treeFact = analysisFact->createTreeFactory();
+    ITree *tree = treeFact->create(hFile,"xml",false,true, "compressed");
+    ITupleFactory *tupleFact = analysisFact->createTupleFactory(*tree);
+    ITuple *particleData = tupleFact->create("tuple", "tupleLabel",
+					     columnNames,
+					     columnClasses, "");
+#endif
     // -------------------------------------------------------------------
     // -------- Start run processing
 
@@ -926,8 +959,18 @@ int main(int argc, char** argv)
 	rmom = p;
 	rtheta = theta / degree;
 	rphi = phi / degree;
+#ifdef G4ANALYSIS_USE_ROOT
 	data->Fill();
-
+#endif
+#ifdef G4ANALYSIS_USE
+	particleData->fill(0, rA);
+	particleData->fill(1, rZ);
+	particleData->fill(2, kinE);
+	particleData->fill(3, rmom);
+	particleData->fill(4, rtheta);
+	particleData->fill(5, rphi);
+	particleData->addRow();
+#endif
 	if(usepaw) {
           if(elastic) {
 	    if(i==0)  {
@@ -1091,9 +1134,16 @@ int main(int argc, char** argv)
       histo.save();
     }
 
+#ifdef G4ANALYSIS_USE_ROOT
     outputFile->Write();
     outputFile->Close();
-
+#endif
+#ifdef G4ANALYSIS_USE
+    tree->commit();
+    tree->close();
+    delete tree;
+    tree = 0;
+#endif
     G4cout << "###### End of run # " << run << "     ######" << G4endl;
   }
 
