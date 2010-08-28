@@ -168,6 +168,19 @@ public:
     }
   }
 
+  TH1D* fillZDistribution(Double_t minZ, Double_t maxZ) {
+    Double_t normalizationFactor = 1.0;
+    if(normalizationMethod == CrossSectionNormalization) {
+      normalizationFactor = crossSection/numberOfEvents;
+    } else if(normalizationMethod == EventNormalization) {
+      normalizationFactor = 1.0 / numberOfEvents;
+    }
+    Int_t nbins = (Int_t) (maxZ - minZ); // Default bin width = 1
+    TH1D *histo = fillHisto("Z", nbins, minZ, maxZ, false, "Z >= 3");
+    normalizeHisto(histo, normalizationFactor);
+    return histo;
+  }
+
   // Produce neutron double-differential plot for 
   TH1D* fillNeutronDoubleDiffXS(Double_t theta, Double_t acceptance, Bool_t logE,
 				Double_t emin, Double_t emax) {
